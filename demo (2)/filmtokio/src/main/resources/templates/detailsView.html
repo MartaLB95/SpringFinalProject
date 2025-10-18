@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Details</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<h1 th:text="#{details.details}">Details</h1>
+<table>
+    <tbody>
+    <tr th:object="${film}">
+        <td th:text="${film.title}"></td>
+        <!--Puesto que hay varios actores, tengo que hacer un for each-->
+        <td th:each="a :${actors}" th:text="${a.name +' '+a.lastname}"></td>
+        <!--Un solo director, pero debemos mostrar nombre y apellido-->
+         <td th:text="${film.director.name + ' ' + film.director.lastname}"></td>
+         <td th:text="${film.releaseDate}"></td>
+        <td><img th:src="@{'uploads/posters/'+{film.poster}}" width="1000" alt="Poster of the film"></img></td>
+         <td th:text="'Average Rating:' +${averageRating}+' '"></td>
+     </tr>
+     </tbody>
+ </table>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/header :: scripts}"></div>
+ </body>
+ </html>

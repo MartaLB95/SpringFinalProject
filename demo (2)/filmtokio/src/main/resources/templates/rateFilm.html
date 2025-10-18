@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Ratings</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1 th:text="#{ratings.rateFilm}"></h1>
+<h2 th:text="${film.getTitle()}"></h2>
+<form method="post" th:action="@{/films/rate/{id}(id=${film.id})}" th:object="${rating}">
+        <div>
+            <label><input type="radio" value="1" th:field="*{score}">1</label>
+            <label><input type="radio" value="2" th:field="*{score}">2</label>
+            <label><input type="radio" value="3" th:field="*{score}">3</label>
+            <label><input type="radio" value="4" th:field="*{score}">4</label>
+            <label><input type="radio" value="5" th:field="*{score}">5</label>
+        </div>
+    <input type="submit" th:value="#{common.submit}">
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

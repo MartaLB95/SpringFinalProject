@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header::head}">
+    <meta charset="UTF-8">
+    <title>Create Film</title>
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<h1 th:text="#{film.add}"></h1>
+<form method="post" th:action="@{/films/create}" th:object="${film}" enctype="multipart/form-data">
+<ul>
+    <li><label th:text="#{film.title}"></label>
+        <input type="text" th:field="*{title}"/></li>
+    <li><label th:text="#{film.release}"></label>
+        <input type="text" th:field="*{releaseDate}"/>  </li>
+    <!--Tengo que ver cómo hago esto para que escojan entre los que ya existen-->
+    <li><label th:text="#{film.director}"></label>
+        <select name="directorId" required>
+            <option value="" disabled selected th:text="#{film.selectDirector}"></option>
+            <option th:each="d : ${directors}" th:value="${d.id}" th:text="${d.name+' '+d.lastname}" ></option>
+        </select>
+    </li>
+    <li><label th:text="#{film.actors}"></label>
+        <select multiple th:field="*{actors}">
+            <option th:each="a : ${actors}" th:value="${a.id}" th:text="${a.name +' '+a.lastname}"></option>
+        </select>
+    </li>
+    <li><label th:text="#{film.poster}"></label>
+        <input type="file" name="posterFile"/></li>
+    <input type="submit" th:value="#{common.submit}"/>
+</ul>
+</form>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

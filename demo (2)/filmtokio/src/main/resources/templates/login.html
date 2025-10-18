@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title th:text="#{common.signin}"></title>
+</head>
+<body>
+<h1>Sign in!</h1>
+<div th:replace="~{fragments/header :: header}"></div>
+<form method="post" th:action="@{/login}" th:object="${loginDTO}">
+    <ul>
+        <li><label th:text = "#{common.username}"></label>
+            <input type="text" th:field="*{username}"></li>
+
+        <li><label th:text = "#{common.password}"></label>
+            <input type="password" th:field="*{password}"></li>
+
+       <div class="text-danger" th:if="${errorMsg != null}" th:text="#{${errorMsg}}"></div>
+    </ul>
+    <button type="submit" th:text="#{common.signin}"></button>
+
+    <p th:text="#{login.account}" ></p>
+    <p><a th:href="@{/register}" th:text="#{login.register}"></a></p>
+
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

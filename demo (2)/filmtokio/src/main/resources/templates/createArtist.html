@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: head}">
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<h1 th:text="#{artist.addArtist}"></h1>
+<form method="post" th:action="@{/artists/create}" th:object="${artist}">
+  <ul>
+      <li><label th:text="#{artist.name}"></label>
+          <input type="text" th:field="*{name}"></li>
+      <li><label th:text="#{artist.lastname}"></label>
+          <input type="text" th:field="*{lastname}"></li>
+      <li><label th:text="#{artist.type}"></label>
+          <input type="text" th:field="*{type}"></li>
+      <input type="submit" th:value="#{common.submit}">
+  </ul>
+</form>
+<div th:replace="~{fragments/footer::footer}"></div>
+<div th:replace="~{fragments/header::scripts}"></div>
+</body>
+</html>
