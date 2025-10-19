@@ -16,7 +16,7 @@
         <!--Un solo director, pero debemos mostrar nombre y apellido-->
          <td th:text="${film.director.name + ' ' + film.director.lastname}"></td>
          <td th:text="${film.releaseDate}"></td>
-        <td><img th:src="@{'uploads/posters/'+{film.poster}}" width="1000" alt="Poster of the film"></img></td>
+         <td><img th:src="@{'/uploads/posters/'+${film.poster}}" width="200" alt="Poster of the film"></img></td>
          <td th:text="'Average Rating:' +${averageRating}+' '"></td>
      </tr>
      </tbody>
