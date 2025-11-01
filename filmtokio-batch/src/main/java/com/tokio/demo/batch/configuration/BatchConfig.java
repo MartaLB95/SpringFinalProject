@@ -1,14 +1,25 @@
 package com.tokio.demo.batch.configuration;
 
 import com.tokio.demo.batch.model.Film;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -64,9 +75,27 @@ import java.nio.file.Paths;
 
             return writer;
     }
-+
-
+    @Bean
+    public Step step (JobRepository jobRepository,
+                      PlatformTransactionManager transactionManager,
+                      ItemReader<Film> filmReader,
+                      ItemWriter<Film> filmWriter){
+            return new StepBuilder("exportFilmsStep", jobRepository)
+                    .<Film, Film>chunk(10, transactionManager)
+                    .reader(filmReader)
+                .writer(filmWriter)
+                .build();
 
     }
+
+    @Bean
+    public Job filmJob (JobRepository jobRepository, Step step){
+            return new JobBuilder("filmJob", jobRepository)
+                    .start(step)
+                    .incrementer(new RunIdIncrementer())
+                    .build();
+    }
+
+}
 
 
