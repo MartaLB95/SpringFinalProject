@@ -1,4 +1,4 @@
-package com.tokio.demo.dto;
+package com.tokio.demo.dto.web;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;

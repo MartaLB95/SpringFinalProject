@@ -2,7 +2,7 @@ package com.tokio.demo.service.impl;
 
 import com.tokio.demo.domain.Role;
 import com.tokio.demo.domain.User;
-import com.tokio.demo.dto.UserRegisterDTO;
+import com.tokio.demo.dto.web.UserRegisterDTO;
 import com.tokio.demo.repository.RoleRepository;
 import com.tokio.demo.repository.UserRepository;
 import jakarta.validation.Valid;

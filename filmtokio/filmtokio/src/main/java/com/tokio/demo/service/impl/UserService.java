@@ -1,7 +1,7 @@
 package com.tokio.demo.service.impl;
 
 import com.tokio.demo.domain.User;
-import com.tokio.demo.dto.UserRegisterDTO;
+import com.tokio.demo.dto.web.UserRegisterDTO;
 import jakarta.validation.Valid;
 
 import java.util.List;

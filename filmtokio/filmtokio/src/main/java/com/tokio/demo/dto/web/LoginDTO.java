@@ -1,6 +1,5 @@
-package com.tokio.demo.dto;
+package com.tokio.demo.dto.web;
 
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

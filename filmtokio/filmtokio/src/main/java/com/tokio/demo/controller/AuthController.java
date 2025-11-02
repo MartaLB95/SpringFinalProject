@@ -1,15 +1,9 @@
 package com.tokio.demo.controller;
 
-import com.tokio.demo.dto.LoginDTO;
-import com.tokio.demo.dto.UserRegisterDTO;
+import com.tokio.demo.dto.web.LoginDTO;
+import com.tokio.demo.dto.web.UserRegisterDTO;
 import com.tokio.demo.service.impl.UserServiceImpl;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.apache.catalina.filters.ExpiresFilter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.IOException;
 
 @Controller
 public class AuthController {
