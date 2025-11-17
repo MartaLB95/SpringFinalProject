@@ -2,6 +2,7 @@ package com.tokio.demo.service.impl;
 
 import com.tokio.demo.domain.Film;
 import com.tokio.demo.repository.FilmRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,9 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Optional<Film> findById(Long id){
-        return filmRepository.findById(id);
+    public Film findById(Long id) {
+        return filmRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Film with ID " + id + " not found"));
     }
 
     @Override

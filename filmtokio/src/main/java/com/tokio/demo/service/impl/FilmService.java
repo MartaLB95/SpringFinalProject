@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface FilmService {
     List<Film> findAll();
 
-    Optional<Film> findById(Long id);
+    Film findById(Long id);
 
     Film save(Film film);
 

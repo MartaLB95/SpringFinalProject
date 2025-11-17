@@ -1,11 +1,11 @@
 package com.tokio.demo.security;
 
+import jakarta.servlet.RequestDispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,8 +59,7 @@ public class WebSecurityConfig {
         http
                 .exceptionHandling(ex -> ex
                     .authenticationEntryPoint((request, response, authException) ->
-                        response.sendRedirect("/login")
-                )
+                        response.sendRedirect("/login"))
                 )
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
@@ -78,6 +77,14 @@ public class WebSecurityConfig {
                         .failureHandler(failureHandler)
                         .permitAll()
                 )
+                .exceptionHandling(ex -> ex
+                        // Forward con código 403 a nuestro error controller
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
+                            request.setAttribute(RequestDispatcher.ERROR_MESSAGE,
+                                    "You do not have permission to access this page.");
+                            request.getRequestDispatcher("/app-error").forward(request, response);
+                        }))
                  .logout(logout -> logout
                                  .invalidateHttpSession(true)
                                  .deleteCookies("JESSIONID")

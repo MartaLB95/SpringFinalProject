@@ -5,6 +5,7 @@ import com.tokio.demo.domain.User;
 import com.tokio.demo.dto.web.UserRegisterDTO;
 import com.tokio.demo.repository.RoleRepository;
 import com.tokio.demo.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.context.annotation.Lazy;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional <User> findById(Long id){
-        return userRepository.findById(id);
+        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found")));
     }
 
     @Override

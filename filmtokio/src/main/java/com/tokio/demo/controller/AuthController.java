@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, @RequestParam(value = "error", required = false) String error) {
+    public String login(Model model, @RequestParam(value = "templates/error", required = false) String error) {
         model.addAttribute("loginDTO", new LoginDTO());
         if (error != null) {
             model.addAttribute("errorMsg", "login.notvalid"); // Thymeleaf traducirá con i18n

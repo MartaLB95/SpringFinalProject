@@ -51,8 +51,7 @@ public class FilmController {
         /**Hay que indicar que Film es un optional y pasarle a thymeleaf algo distinto, ya que no puede
          * leer optionals. Además, si no pasamos "film" al model, thymeleaf no lo encontrará.
          */
-        Optional<Film> optionalFilm=filmServiceImpl.findById(id);
-        Film film= optionalFilm.orElseThrow(()->new RuntimeException("Film not found"));
+        Film film=filmServiceImpl.findById(id);
         model.addAttribute("film", film);
         model.addAttribute("averageRating", ratingServiceImpl.findAverageScoreByFilmId(id));
         return "detailsView";
@@ -77,8 +76,7 @@ public class FilmController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model){
-        Optional<Film> optionalFilm=filmServiceImpl.findById(id);
-        Film film= optionalFilm.orElseThrow(()->new RuntimeException("Film not found"));
+        Film film= filmServiceImpl.findById(id);
         model.addAttribute("film", film);
         //Para que se muestren todos los actores y todos los directores disponibles
         model.addAttribute("directors", directorServiceImpl.findAll());
@@ -89,11 +87,8 @@ public class FilmController {
 
     @GetMapping ("/rate/{id}")
     public String showRateForm(@PathVariable Long id, Model model) {
-        Optional<Film> optionalFilm = filmServiceImpl.findById(id);
-        Film film = optionalFilm.orElseThrow(() -> new RuntimeException("Film not found"));
-        Rating rating=new Rating();
+        Film film = filmServiceImpl.findById(id);
         model.addAttribute("film", film);
-        model.addAttribute("rating", rating);
         return "rateFilm";
     }
 
@@ -149,36 +144,6 @@ public class FilmController {
         //Devolver vista (volver a la lista de películas)
         return "redirect:/films";
     }
-
-    @PostMapping ("/rate/{id}")
-    public String rate(@PathVariable Long id, @ModelAttribute Rating rating){
-
-        //Nos aseguramos de que el form se envía con el mismo id. Convierto el optional en Film para que thymeleaf
-        //pueda procesarlo
-        Optional<Film> optionalFilm = filmServiceImpl.findById(id);
-        Film film = optionalFilm.orElseThrow(() -> new RuntimeException("Film not found"));
-
-
-        //Guardar rating de la película
-        rating.setFilm(film);
-
-        //Ponemos id null para que se haga un insert y no un update
-        rating.setId(null);
-
-        //rating.setUserId(getUserId()); Esto lo tendré que incluir cuando tenga la parte de user!!!
-        rating.setCreatedAt(LocalDate.now().atStartOfDay());
-        
-        User dummyUser = new User();
-        dummyUser.setId(1L); // suponiendo que el id 1 exista o se puede crear uno temporal
-        rating.setUser(dummyUser);
-
-        ratingServiceImpl.save(rating);
-
-
-        //Devolver vista (volver a la lista de películas)
-        return "redirect:/films";
-    }
-
 
 
 

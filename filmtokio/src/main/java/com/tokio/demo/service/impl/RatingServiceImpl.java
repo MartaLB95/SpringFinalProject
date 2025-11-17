@@ -1,7 +1,9 @@
 package com.tokio.demo.service.impl;
 
 import com.tokio.demo.domain.Rating;
+import com.tokio.demo.exception.RatingNotFoundException;
 import com.tokio.demo.repository.RatingRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Optional<Rating> findById(Long id){
-        return ratingRepository.findById(id);
+        return Optional.ofNullable(ratingRepository.findById(id).orElseThrow(() -> new RatingNotFoundException("Rating with ID " + id + " not found")));
     }
 
     @Override
