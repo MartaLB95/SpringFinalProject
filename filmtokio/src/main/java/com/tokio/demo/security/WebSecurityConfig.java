@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
                             request.setAttribute(RequestDispatcher.ERROR_MESSAGE,
-                                    "You do not have permission to access this page.");
+                                    "#{error.permission}");
                             request.getRequestDispatcher("/app-error").forward(request, response);
                         }))
                  .logout(logout -> logout
