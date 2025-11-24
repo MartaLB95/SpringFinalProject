@@ -1,6 +1,8 @@
 package com.tokio.demo.batch.configuration;
 
 import com.tokio.demo.batch.model.Film;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -32,7 +34,10 @@ import java.nio.file.Paths;
     @EnableBatchProcessing
     public class BatchConfig{
 
-        @Bean
+    private static final Logger logger = LoggerFactory.getLogger(BatchConfig.class);
+
+
+    @Bean
         public JdbcCursorItemReader<Film> filmReader(DataSource dataSource) {
             JdbcCursorItemReader<Film> reader = new JdbcCursorItemReader<>();
 

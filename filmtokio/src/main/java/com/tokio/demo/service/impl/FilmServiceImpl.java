@@ -3,6 +3,8 @@ package com.tokio.demo.service.impl;
 import com.tokio.demo.domain.Film;
 import com.tokio.demo.repository.FilmRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ import java.util.Optional;
 @Service
 @Lazy(true)
 public class FilmServiceImpl implements FilmService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmServiceImpl.class);
 
     private final FilmRepository filmRepository;
 

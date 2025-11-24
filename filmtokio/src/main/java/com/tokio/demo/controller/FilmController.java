@@ -4,6 +4,8 @@ import com.tokio.demo.service.impl.ActorServiceImpl;
 import com.tokio.demo.service.impl.DirectorServiceImpl;
 import com.tokio.demo.service.impl.FilmServiceImpl;
 import com.tokio.demo.service.impl.RatingServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ import java.util.UUID;
 @RequestMapping("/films")
 
 public class FilmController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
+
     private final FilmServiceImpl filmServiceImpl;
     private final DirectorServiceImpl directorServiceImpl;
     private final ActorServiceImpl actorServiceImpl;

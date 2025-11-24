@@ -4,6 +4,8 @@ import com.tokio.demo.domain.Rating;
 import com.tokio.demo.exception.RatingNotFoundException;
 import com.tokio.demo.repository.RatingRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class RatingServiceImpl implements RatingService {
 
     private final RatingRepository ratingRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(RatingServiceImpl.class);
 
     public RatingServiceImpl(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;

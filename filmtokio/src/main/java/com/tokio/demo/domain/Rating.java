@@ -1,6 +1,8 @@
 package com.tokio.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="ratings")
 public class Rating {
@@ -28,11 +31,13 @@ public class Rating {
     //Tengo que ver cómo conecto esto
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn (name="filmId", nullable = false)
     private Film film;
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn (name="userId", nullable = false)
     private User user;
 

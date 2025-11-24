@@ -2,6 +2,8 @@ package com.tokio.demo.service.impl;
 
 import com.tokio.demo.domain.Director;
 import com.tokio.demo.repository.DirectorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,8 @@ import java.util.Optional;
 @Lazy(true)
 @Service
 public class DirectorServiceImpl implements DirectorService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DirectorServiceImpl.class);
 
     private final DirectorRepository directorRepository;
 

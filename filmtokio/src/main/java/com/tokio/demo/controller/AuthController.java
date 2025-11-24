@@ -4,6 +4,8 @@ import com.tokio.demo.dto.web.LoginDTO;
 import com.tokio.demo.dto.web.UserRegisterDTO;
 import com.tokio.demo.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final UserServiceImpl userServiceImpl;
     private final AuthenticationManager authenticationManager;

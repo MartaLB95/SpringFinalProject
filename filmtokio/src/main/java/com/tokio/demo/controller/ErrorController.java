@@ -2,6 +2,8 @@ package com.tokio.demo.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import java.util.Locale;
 
 @Controller
 public class ErrorController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     @Autowired
     private MessageSource messageSource;

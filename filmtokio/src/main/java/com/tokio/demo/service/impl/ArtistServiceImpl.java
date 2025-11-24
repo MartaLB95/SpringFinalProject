@@ -1,7 +1,10 @@
 package com.tokio.demo.service.impl;
 
+import com.tokio.demo.controller.RatingRestController;
 import com.tokio.demo.domain.Artist;
 import com.tokio.demo.repository.ArtistRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,8 @@ import java.util.Optional;
 @Lazy(true)
 @Service
 public class ArtistServiceImpl implements ArtistService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ArtistServiceImpl.class);
 
     private final ArtistRepository artistRepository;
 

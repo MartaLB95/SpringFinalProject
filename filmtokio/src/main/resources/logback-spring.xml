@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+<!--Where to save the logs and name of the file-->
+    <property name="LOG_DIR" value="logs"/>
+    <property name="LOG_NAME" value="filmtokio"/>
+
+<!--Configuration of the console log-->
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+
+    <!--Trace configuration-->
+                <Pattern>
+                     %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n
+                </Pattern>
+
+            </layout>
+    </appender>
+
+    <!--Storage configuration-->
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <file>${LOG_DIR}/${LOG_NAME}.log</file>
+                <encoder
+                    class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <Pattern>%d%p%C{1.}[%T]%m%n</Pattern>
+                </encoder>
+
+    <!--Log rotation policy-->
+    <rollingPolicy
+        class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${LOG_DIR}/${LOG_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <timeBasedFileNamingAndTriggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>10MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    </appender>
+
+    <!--Log level for each appender-->
+    <root level="info">
+        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="Console"/>
+    </root>
+
+</configuration>

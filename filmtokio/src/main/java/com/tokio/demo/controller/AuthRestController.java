@@ -2,6 +2,8 @@ package com.tokio.demo.controller;
 import com.tokio.demo.dto.api.JwtRequest;
 import com.tokio.demo.dto.api.JwtResponse;
 import com.tokio.demo.security.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping ("/api/auth")
 public class AuthRestController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthRestController.class);
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;

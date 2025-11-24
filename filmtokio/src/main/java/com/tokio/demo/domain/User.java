@@ -1,13 +1,19 @@
 package com.tokio.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
@@ -20,7 +26,7 @@ public class User {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 
 
-    @Column (name="id", nullable = false)
+    @Column(name="id", nullable = false)
     private Long id;
 
     @Column (name="username", nullable = false, unique = true)
@@ -46,6 +52,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @OneToMany (mappedBy="user")
+    @JsonManagedReference
     private Set<Rating> ratings;
 
     @ManyToMany(fetch = FetchType.EAGER)
