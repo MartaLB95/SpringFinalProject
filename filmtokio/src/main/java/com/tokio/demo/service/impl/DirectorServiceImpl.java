@@ -26,16 +26,19 @@ public class DirectorServiceImpl implements DirectorService {
     @Transactional(readOnly=true)
     @Override
     public List<Director> findAll(){
+        logger.info("Service: fetching all directors");
         return directorRepository.findAll();
     }
 
     @Override
     public Optional<Director> findById(Long id){
+        logger.info("Service: fetching director with id {}", id);
         return directorRepository.findById(id);
     }
 
     @Override
-    public Director save(Director director){
+    public Director save(Director director) {
+        logger.info("New director created with id");
         return directorRepository.save(director);
     }
 

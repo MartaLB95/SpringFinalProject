@@ -32,11 +32,12 @@ public class FilmBatchRunner implements CommandLineRunner {
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
 
+        logger.info("Launching filmJob with parameters: {}", params);
         // Ejecutar el Job
         JobExecution execution = launcher.run(filmJob, params);
 
         // Mostrar resultado
-        System.out.println("Estado del job: " + execution.getStatus());
+        logger.info("Job status: " + execution.getStatus());
        } catch (Exception e){
            e.printStackTrace();
        }

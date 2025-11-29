@@ -39,7 +39,9 @@ import java.nio.file.Paths;
 
     @Bean
         public JdbcCursorItemReader<Film> filmReader(DataSource dataSource) {
-            JdbcCursorItemReader<Film> reader = new JdbcCursorItemReader<>();
+        logger.info("Initializing Film JDBC reader with SQL query");
+        JdbcCursorItemReader<Film> reader = new JdbcCursorItemReader<>();
+
 
             //BDD
             reader.setDataSource(dataSource);
@@ -55,6 +57,7 @@ import java.nio.file.Paths;
                 film.setPoster(rs.getString("poster"));
                 return film;
             });
+            logger.info("Film reader configured");
             return reader;
 
         }
@@ -65,8 +68,10 @@ import java.nio.file.Paths;
 
             //Crea la carpeta output si no existe
             Files.createDirectories(Paths.get("output"));
+            logger.info("Output directory created");
 
             //Archivo de salida
+            logger.info("Configuring FlatFileItemWriter for films_export.csv");
             writer.setResource(new FileSystemResource("output/films_export.csv"));
 
             //Campos que vamos a incluir
@@ -78,6 +83,8 @@ import java.nio.file.Paths;
             aggregator.setFieldExtractor(fieldExtractor);
             writer.setLineAggregator(aggregator);
 
+            logger.info("Film writer configured");
+
             return writer;
     }
     @Bean
@@ -85,16 +92,18 @@ import java.nio.file.Paths;
                       PlatformTransactionManager transactionManager,
                       ItemReader<Film> filmReader,
                       ItemWriter<Film> filmWriter){
+
+        logger.info("Step getting ready to create files with chunks of size 10");
             return new StepBuilder("exportFilmsStep", jobRepository)
                     .<Film, Film>chunk(10, transactionManager)
                     .reader(filmReader)
                 .writer(filmWriter)
                 .build();
-
     }
 
     @Bean
     public Job filmJob (JobRepository jobRepository, Step step){
+        logger.info("Registering job 'filmJob'");
             return new JobBuilder("filmJob", jobRepository)
                     .start(step)
                     .incrementer(new RunIdIncrementer())

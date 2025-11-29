@@ -31,16 +31,19 @@ public class ActorServiceImpl implements ActorService {
     @Transactional(readOnly=true)
     @Override
     public List<Actor> findAll(){
+        logger.info("Service: fetching all actors");
         return actorRepository.findAll();
     }
 
     @Override
     public Actor save(Actor actor){
+        logger.info("New actor created");
         return actorRepository.save(actor);
     }
 
     @Override
     public Optional <Actor> findById(Long id){
+        logger.info("Service: fetching actor with id{}", id);
         return actorRepository.findById(id);
     }
 

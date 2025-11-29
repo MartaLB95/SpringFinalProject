@@ -27,16 +27,19 @@ public class ArtistServiceImpl implements ArtistService {
     @Transactional(readOnly=true)
     @Override
     public List<Artist> findAll(){
+        logger.info("Service: fetching all artists");
         return artistRepository.findAll();
     }
 
     @Override
     public Optional <Artist> findById(Long id){
+        logger.info("Service: fetching artist with id {}", id);
         return artistRepository.findById(id);
     }
 
     @Override
     public Artist save(Artist artist){
+        logger.info("Artist created");
         return artistRepository.save(artist);
     }
 

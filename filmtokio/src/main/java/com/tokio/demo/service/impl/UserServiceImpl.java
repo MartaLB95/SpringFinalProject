@@ -38,12 +38,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly=true)
     @Override
     public List<User> findAll(){
+        logger.info("Service: fetching all users");
         return userRepository.findAll();
     }
 
     @Override
     public Optional <User> findById(Long id){
-        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found")));
+        logger.info("Service: fetching user with id {}", id);
+        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("User with ID " + id + " not found")));
     }
 
     @Override
@@ -61,17 +64,22 @@ public class UserServiceImpl implements UserService {
         Role userRole=roleRepository.findByName("ROLE_USER");
         user.setRoles(Set.of(userRole));
 
+        logger.info("New user created");
+
         return userRepository.save(user);
     }
 
     @Override
     public void delete(Long id){
         if(userRepository.existsById(id)){
+            logger.info("User with id {} exists", id);
             userRepository.deleteById(id);
+            logger.info("User with id {} deleted", id);
         }
     }
 
     public boolean existsByUsername(@NotBlank(message = "Username is required") String username) {
+        logger.warn("Checking if username {} exists", username);
         return userRepository.existsByUsername(username);
     }
 }

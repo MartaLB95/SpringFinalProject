@@ -20,5 +20,6 @@ import java.io.IOException;
                                             HttpServletResponse response,
                                             Authentication authentication) throws IOException {
             response.sendRedirect("/films"); // redirige al dashboard/películas
+            logger.error("Authentication success");
         }
     }

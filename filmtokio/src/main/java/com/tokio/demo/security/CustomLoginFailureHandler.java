@@ -20,5 +20,6 @@ import java.io.IOException;
                                             HttpServletResponse response,
                                             AuthenticationException exception) throws IOException {
             response.sendRedirect("/login?error=true"); // redirige con parámetro para mostrar error
+            logger.error("Authentication failed");
         }
     }
