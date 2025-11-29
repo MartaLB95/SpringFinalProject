@@ -35,13 +35,15 @@ public class AuthRestController {
     public ResponseEntity<?> login (@RequestBody JwtRequest authRequest) throws Exception{
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+                    logger.info("Authentication attempt for user {}", authRequest.getUsername());
         } catch (BadCredentialsException e) {
+            logger.warn("Incorrect user or password");
             return ResponseEntity.status(401).body("Incorrect user or password");
         }
         final UserDetails userDetails= userDetailsService.loadUserByUsername(authRequest.getUsername());
         final String token=jwtUtil.generateToken(userDetails);
+        logger.info("Login successful");
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

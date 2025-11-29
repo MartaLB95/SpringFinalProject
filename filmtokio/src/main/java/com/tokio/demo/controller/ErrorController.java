@@ -31,6 +31,7 @@ public class ErrorController {
 
         model.addAttribute("errorCode", errorCode);
         model.addAttribute("errorMessage", errorMessage);
+        logger.info("Error {} occurred: {}", errorCode, errorMessage);
         return "error/error";
     }
 }

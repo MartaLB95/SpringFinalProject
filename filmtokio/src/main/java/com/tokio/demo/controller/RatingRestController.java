@@ -27,22 +27,27 @@ public class RatingRestController {
 
     @GetMapping
     public List<Rating> getAll(){
+        logger.info("GET /api/ratings/ called");
         return ratingServiceImpl.findAll();
     }
 
     @GetMapping ("/{id}")
     public Optional <Rating> getById(@PathVariable Long id){
+        logger.info("GET /api/ratings/{} called", id);
         return ratingServiceImpl.findById(id);
     }
 
     @PostMapping
     public Rating post (@RequestBody Rating rating){
+        logger.info("POST /api/ratings/ called");
         return ratingServiceImpl.save(rating);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
+        logger.info("DELETE /api/ratings/{} called", id);
         ratingServiceImpl.delete(id);
+        logger.info("Rating deleted with id {}", id);
     }
 
 }

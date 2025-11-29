@@ -42,12 +42,14 @@ public class FilmController {
 
     @GetMapping
     public String getAll(String titleFragment, Model model){
+        logger.info("GET/films/ called");
         if(titleFragment != null && !titleFragment.isEmpty() ){
              model.addAttribute("films", filmServiceImpl.findByTitleContaining(titleFragment));
         }else {
             model.addAttribute("films", filmServiceImpl.findAll());
         }
         model.addAttribute("searchQuery", titleFragment);
+        logger.info("SearchFilm form displayed");
         return "searchFilm";
     }
 
@@ -56,14 +58,19 @@ public class FilmController {
         /**Hay que indicar que Film es un optional y pasarle a thymeleaf algo distinto, ya que no puede
          * leer optionals. Además, si no pasamos "film" al model, thymeleaf no lo encontrará.
          */
+        logger.info("GET/films/details/{} called", id);
         Film film=filmServiceImpl.findById(id);
         model.addAttribute("film", film);
         model.addAttribute("averageRating", ratingServiceImpl.findAverageScoreByFilmId(id));
+        logger.info("detailsView form displayed");
+
         return "detailsView";
     }
 
     @GetMapping ("/create")
     public String showCreateForm(Model model){
+
+        logger.info("GET/films/create called");
         Film film= new Film();
         film.setDirector(new Director());
         model.addAttribute("film", film);
@@ -76,24 +83,32 @@ public class FilmController {
         if (actors == null) actors = new ArrayList<>();
         model.addAttribute("actors", actors);
 
+        logger.info("createFilm form displayed");
+
         return "createFilm";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model){
+
+        logger.info("GET/films/edit/{} called", id);
         Film film= filmServiceImpl.findById(id);
         model.addAttribute("film", film);
         //Para que se muestren todos los actores y todos los directores disponibles
         model.addAttribute("directors", directorServiceImpl.findAll());
         model.addAttribute("actors", actorServiceImpl.findAll());
+        logger.info("editFilm form displayed");
+
         return "editFilm";
 
     }
 
     @GetMapping ("/rate/{id}")
     public String showRateForm(@PathVariable Long id, Model model) {
+        logger.info("GET/films/rate/{} called", id);
         Film film = filmServiceImpl.findById(id);
         model.addAttribute("film", film);
+        logger.info("rateFilm form displayed");
         return "rateFilm";
     }
 
@@ -116,7 +131,8 @@ public class FilmController {
         if (poster != null && !poster.isEmpty()) {
             // Validar tipo de archivo
             if (!poster.getContentType().startsWith("image/")) {
-                model.addAttribute("errorMsg", "Solo se permiten imágenes");
+                model.addAttribute("errorMsg", "Only images allowed");
+                logger.warn("Format not allowed, only images");
                 return "redirect:/films/create";
             }
 
@@ -131,7 +147,7 @@ public class FilmController {
 
         //Guardar película
         filmServiceImpl.save(film);
-
+        logger.info("The film has been created successfully with title {}", film.getTitle());
         //Devolver vista (volver a la lista de películas)
             return "redirect:/films";
     }
@@ -146,6 +162,7 @@ public class FilmController {
         film.setId(id);
         //Guardar película editada
         filmServiceImpl.save(film);
+        logger.info("The film with id {} has been edited successfully", id);
         //Devolver vista (volver a la lista de películas)
         return "redirect:/films";
     }

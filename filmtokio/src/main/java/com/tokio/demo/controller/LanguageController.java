@@ -26,6 +26,7 @@ public class LanguageController {
         resolver.setLocale(request, response, Locale.forLanguageTag(lang));
 
         String referer = request.getHeader("Referer");
+        logger.info("Language switched to {}", lang);
         return "redirect:" + (referer != null ? referer : "/login");
     }
 }

@@ -29,17 +29,20 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, @RequestParam(value = "templates/error", required = false) String error) {
+    public String login(Model model, @RequestParam(value = "error", required = false) String error) {
         model.addAttribute("loginDTO", new LoginDTO());
         if (error != null) {
             model.addAttribute("errorMsg", "login.notvalid"); // Thymeleaf traducirá con i18n
+            logger.error("login error");
         }
+        logger.info("Login form is shown");
         return "login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("userRegisterDTO", new UserRegisterDTO());
+        logger.info("Register form is shown");
         return "register";
     }
 
@@ -48,14 +51,17 @@ public class AuthController {
             (@Valid @ModelAttribute UserRegisterDTO userRegisterDTO,  BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            logger.error("Register error");
             return "register";
         }
             if (userServiceImpl.existsByUsername(userRegisterDTO.getUsername())) {
                 result.rejectValue("username",  "error.userRegisterDTO", "Username already exists");
+                logger.error("Username already exists");
                 return "register";
             }
 
             userServiceImpl.save(userRegisterDTO);
+            logger.info("user {} registered successfully", userRegisterDTO.getUsername());
             return "redirect:/films";
         }
 
