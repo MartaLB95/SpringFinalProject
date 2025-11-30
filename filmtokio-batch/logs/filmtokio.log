@@ -1,0 +1,45 @@
+2025-11-30 16:31:18 [main] INFO  c.t.d.b.FilmTokioBatchApplicationTests - Starting FilmTokioBatchApplicationTests using Java 21.0.6 with PID 12116 (started by marta in C:\Users\marta\OneDrive\Documentos\Programming\Tokio_School\Spring\Proyecto final\filmtokio-batch)
+2025-11-30 16:31:18 [main] INFO  c.t.d.b.FilmTokioBatchApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-11-30 16:31:20 [main] INFO  o.s.b.c.c.annotation.BatchRegistrar - Finished Spring Batch infrastructure beans configuration in 8 ms.
+2025-11-30 16:31:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-30 16:31:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 0 JPA repository interfaces.
+2025-11-30 16:31:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-30 16:31:23 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@426c0486
+2025-11-30 16:31:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-30 16:31:23 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-30 16:31:23 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-11-30 16:31:23 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-30 16:31:24 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-30 16:31:24 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-30 16:31:24 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.43
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-30 16:31:25 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-30 16:31:25 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-30 16:31:25 [main] INFO  o.s.b.c.r.s.JobRepositoryFactoryBean - No database type set, using meta data indicating: MYSQL
+2025-11-30 16:31:25 [main] INFO  o.s.b.c.l.s.TaskExecutorJobLauncher - No TaskExecutor has been set, defaulting to synchronous executor.
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Initializing Film JDBC reader with SQL query
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Film reader configured
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Output directory created
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Configuring FlatFileItemWriter for films_export.csv
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Film writer configured
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Step getting ready to create files with chunks of size 10
+2025-11-30 16:31:25 [main] INFO  o.s.b.c.c.a.BatchObservabilityBeanPostProcessor - No Micrometer observation registry found, defaulting to ObservationRegistry.NOOP
+2025-11-30 16:31:25 [main] INFO  c.t.d.b.configuration.BatchConfig - Registering job 'filmJob'
+2025-11-30 16:31:25 [main] INFO  o.s.b.c.c.a.BatchObservabilityBeanPostProcessor - No Micrometer observation registry found, defaulting to ObservationRegistry.NOOP
+2025-11-30 16:31:26 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-30 16:31:27 [main] INFO  c.t.d.b.FilmTokioBatchApplicationTests - Started FilmTokioBatchApplicationTests in 9.594 seconds (process running for 12.49)
+2025-11-30 16:31:27 [main] INFO  c.tokio.demo.batch.FilmBatchRunner - Launching filmJob with parameters: {'time':'{value=1764516687533, type=class java.lang.Long, identifying=true}'}
+2025-11-30 16:31:30 [main] INFO  o.s.b.c.l.s.TaskExecutorJobLauncher - Job: [SimpleJob: [name=filmJob]] launched with the following parameters: [{'time':'{value=1764516687533, type=class java.lang.Long, identifying=true}'}]
+2025-11-30 16:31:30 [main] INFO  o.s.batch.core.job.SimpleStepHandler - Executing step: [exportFilmsStep]
+2025-11-30 16:31:30 [main] INFO  o.s.batch.core.step.AbstractStep - Step: [exportFilmsStep] executed in 183ms
+2025-11-30 16:31:30 [main] INFO  o.s.b.c.l.s.TaskExecutorJobLauncher - Job: [SimpleJob: [name=filmJob]] completed with the following parameters: [{'time':'{value=1764516687533, type=class java.lang.Long, identifying=true}'}] and the following status: [COMPLETED] in 436ms
+2025-11-30 16:31:30 [main] INFO  c.tokio.demo.batch.FilmBatchRunner - Job status: COMPLETED
+2025-11-30 16:31:31 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-30 16:31:31 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-30 16:31:31 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

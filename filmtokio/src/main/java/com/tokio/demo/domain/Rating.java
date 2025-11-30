@@ -1,6 +1,7 @@
 package com.tokio.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,13 +32,13 @@ public class Rating {
     //Tengo que ver cómo conecto esto
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnoreProperties("film")
     @JoinColumn (name="filmId", nullable = false)
     private Film film;
 
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnoreProperties("user")
     @JoinColumn (name="userId", nullable = false)
     private User user;
 

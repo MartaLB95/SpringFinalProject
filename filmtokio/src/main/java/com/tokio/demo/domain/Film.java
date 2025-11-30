@@ -1,5 +1,6 @@
 package com.tokio.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -51,7 +52,7 @@ public class Film {
     private String poster;
 
     @OneToMany (mappedBy = "film")
-    @JsonManagedReference
+    @JsonIgnoreProperties("rating")
     private Set<Rating> ratings;
 
 }

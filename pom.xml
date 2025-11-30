@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.5.6</version>
         <relativePath/>
     </parent>
 
@@ -21,4 +21,19 @@
         <module>filmtokio</module>
         <module>filmtokio-batch</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.5.18</version>
+            </dependency>
+            <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                    <version>1.5.18</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

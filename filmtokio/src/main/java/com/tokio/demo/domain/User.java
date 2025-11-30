@@ -1,5 +1,6 @@
 package com.tokio.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,7 +53,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @OneToMany (mappedBy="user")
-    @JsonManagedReference
+    @JsonIgnoreProperties("rating")
     private Set<Rating> ratings;
 
     @ManyToMany(fetch = FetchType.EAGER)

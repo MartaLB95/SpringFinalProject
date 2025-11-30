@@ -1,6 +1,5 @@
 package com.tokio.demo;
 
-import com.tokio.demo.exception.RatingNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,7 +20,7 @@ public class RatingRestControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void testGetRatings() throws Exception {
+    void testGetRatings() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ratings"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -43,14 +42,14 @@ public class RatingRestControllerTest {
             {
                  "createdAt": "2025-11-23T12:00:00",
                  "score": 5,
-                 "filmId": 1,
-                 "userId": 1
+                 "film": { "id": 2 },
+                 "user": { "id": 2 }
             }
             """;
         mockMvc.perform(MockMvcRequestBuilders.post("/api/ratings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJson))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
     @Test
     void testDeleteRating() throws Exception {
