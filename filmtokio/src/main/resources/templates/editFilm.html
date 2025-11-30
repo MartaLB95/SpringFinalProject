@@ -8,7 +8,7 @@
 <div th:replace="~{fragments/header::header}"></div>
 
 <h1 th:text="#{film.edit}"></h1>
-<form method="post" th:action="@{/films/edit/{id}(id=${film.id})}" th:object="${film}">
+<form method="post" th:action="@{/films/edit/{id}(id=${film.id})}" th:object="${film}" enctype="multipart/form-data">
     <ul>
         <li><label th:text="#{film.title}"></label>
             <input type="text" th:field="*{title}"/></li>
@@ -27,7 +27,7 @@
             </select>
         </li>
         <li><label th:text="#{film.poster}"></label>
-            <input type="text" th:field="*{poster}"/></li>
+            <input type="file" name="posterFile"/></li>
 <li><input type="submit" th:value="#{common.update}"/></li>
 </ul>
 </form>

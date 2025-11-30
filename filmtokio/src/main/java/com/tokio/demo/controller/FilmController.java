@@ -15,10 +15,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -153,19 +151,42 @@ public class FilmController {
     }
 
     @PostMapping ("/edit/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Film film, @RequestParam Long directorId, Model model){
+    public String update(@PathVariable Long id, @ModelAttribute Film film, @RequestParam Long directorId, Model model, @RequestParam("posterFile") MultipartFile poster) throws IOException {
+
+        Film existingFilm = filmServiceImpl.findById(id);
+
         Director director = directorServiceImpl.findById(directorId)
                 .orElseThrow(() -> new RuntimeException("Director not found"));
 
         film.setDirector(director);
         //Nos aseguramos de que el form se envía con el mismo id
         film.setId(id);
-        //Guardar película editada
-        filmServiceImpl.save(film);
-        logger.info("The film with id {} has been edited successfully", id);
-        //Devolver vista (volver a la lista de películas)
-        return "redirect:/films";
-    }
+        //Añadir imagen para poster
+        if (poster != null && !poster.isEmpty()) {
+            // Validar tipo de archivo
+            if (!poster.getContentType().startsWith("image/")) {
+                model.addAttribute("errorMsg", "Only images allowed");
+                logger.warn("Format not allowed, only images");
+                return "redirect:/films/edit";
+            }
+
+            String fileName = UUID.randomUUID() + "-" + poster.getOriginalFilename();
+            fileName = Paths.get(fileName).getFileName().toString();
+            Path uploadImage = Paths.get("uploads/posters");
+            Files.createDirectories(uploadImage);
+            poster.transferTo(uploadImage.resolve(fileName));
+            film.setPoster(fileName);
+        } else {
+            //Si el poster existe, se da la opción de no cambiarlo
+            film.setPoster(existingFilm.getPoster());
+        }
+
+            //Guardar película editada
+            filmServiceImpl.save(film);
+            logger.info("The film with id {} has been edited successfully", id);
+            //Devolver vista (volver a la lista de películas)
+            return "redirect:/films";
+        }
 
 
 
