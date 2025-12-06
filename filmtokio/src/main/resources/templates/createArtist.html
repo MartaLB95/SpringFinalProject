@@ -4,18 +4,24 @@
 </head>
 <body>
 <div th:replace="~{fragments/header::header}"></div>
+<div class="container mt-4">
 <h1 th:text="#{artist.addArtist}"></h1>
 <form method="post" th:action="@{/artists/create}" th:object="${artist}">
-  <ul>
-      <li><label th:text="#{artist.name}"></label>
-          <input type="text" th:field="*{name}"></li>
-      <li><label th:text="#{artist.lastname}"></label>
-          <input type="text" th:field="*{lastname}"></li>
-      <li><label th:text="#{artist.type}"></label>
-          <input type="text" th:field="*{type}"></li>
-      <input type="submit" th:value="#{common.submit}">
-  </ul>
+  <div class="col-md-4 ml-3">
+      <div class="mb-3">
+      <label th:text="#{artist.name}" class="form-label"></label>
+          <input type="text" th:field="*{name}" class="form-control">
+      </div>
+      <label th:text="#{artist.lastname}" class="form-label"></label>
+          <input type="text" th:field="*{lastname}" class="form-control">
+      <div class="mb-3">
+      <label th:text="#{artist.type}" class="form-label"></label>
+          <input type="text" th:field="*{type}" class="form-control">
+      </div>
+      <input type="submit" th:value="#{common.submit}" class="btn btn-dark mb-3">
+        </div>
 </form>
+</div>
 <div th:replace="~{fragments/footer::footer}"></div>
 <div th:replace="~{fragments/header::scripts}"></div>
 </body>

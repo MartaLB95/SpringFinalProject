@@ -7,20 +7,34 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <h1 th:text="#{details.details}">Details</h1>
-<table>
-    <tbody>
-    <tr th:object="${film}">
-        <td th:text="${film.title}"></td>
+
+<div class="container mt-4">
+    <div class="card mb-3 text-bg-dark" style="max-width: 800px;">
+    <div class="row g-0" th:object="${film}">
+
+        <div class="col-md-4">
+            <img th:src="@{'/uploads/posters/'+${film.poster}}" width="200" alt="Poster of the film" class="img-fluid rounded-start">
+        </div>
+
+        <div class="col-md-8">
+        <div class="card-body">
+        <h5 th:text="${film.title}"></h5>
+
+            <ul class="list-group list-group-flush mt-3">
         <!--Puesto que hay varios actores, tengo que hacer un for each-->
-        <td th:each="a :${actors}" th:text="${a.name +' '+a.lastname}"></td>
+        <li th:each="a :${actors}" th:text="${a.name +' '+a.lastname}"></li>
         <!--Un solo director, pero debemos mostrar nombre y apellido-->
-         <td th:text="${film.director.name + ' ' + film.director.lastname}"></td>
-         <td th:text="${film.releaseDate}"></td>
-         <td><img th:src="@{'/uploads/posters/'+${film.poster}}" width="200" alt="Poster of the film"></img></td>
-         <td th:text="'Average Rating:' +${averageRating}+' '"></td>
-     </tr>
-     </tbody>
- </table>
+         <li th:text="${film.director.name + ' ' + film.director.lastname}"></li>
+         <li th:text="${film.releaseDate}"></li>
+
+         <li th:text="#{rating.average} + ' '+ ${averageRating}"></li>
+            </ul>
+     </div>
+    </div>
+    </div>
+</div>
+</div>
+
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/header :: scripts}"></div>

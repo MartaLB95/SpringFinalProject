@@ -6,31 +6,37 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-
+<div class="container mt-5">
 <h1 th:text="#{film.films}"></h1>
-<!--Aquí tengo que incluir el buscador con los filtros-->
+<!--Film search with filters-->
 <h2 th:text="#{film.searchTitle}"></h2>
-<form method="get" th:action="@{/films}">
-    <label th:text="#{film.title}"></label><input type="text" name="titleFragment" th:value="${searchQuery}">
-    <input type="submit" th:value="#{film.search}">
+<form method="get" th:action="@{/films}" class="mt-4 mb-3">
+    <input type="text" name="titleFragment" th:value="${searchQuery}">
+    <input class="btn btn-dark" type="submit" th:value="#{film.search}">
 </form>
 
-<!--Aquí muestro todas las pelis mientras no hay filtros todavía-->
-<table>
-    <tbody>
-        <tr th:each="film: ${films}">
-            <td th:text="${film.title}"></td>
-            <td th:text="${film.releaseDate}"></td>
-            <td><img th:src="@{'uploads/posters/'+${film.poster}}" width="200" alt="Poster of the film"></img></td>
+<!--Showing every film without search filter-->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="film: ${films}">
+            <div class="card h-100">
 
-             <td>
-                 <a th:href="@{/films/details/{id} (id=${film.id})}"><button th:text="#{film.view}"></button></a>
-                 <a th:href="@{/films/edit/{id} (id=${film.id})}"><button th:text="#{film.editButton}"></button></a>
-                 <a th:href="@{/films/rate/{id} (id=${film.id})}"><button th:text="#{film.rate}"></button></a>
-             </td>
-        </tr>
-    </tbody>
-</table>
+                <img th:src="@{'uploads/posters/'+${film.poster}}" class="card-img-top" width="150" height="500" alt="Poster of the film">
+
+                <div class="card-body">
+            <h5 th:text="${film.title}" class="card-title"></h5>
+            <p th:text="${film.releaseDate}" class="card-text"></p>
+                    </div>
+
+                 <ul class="list-group list-group-flush">
+                 <li class="list-group-item"><a th:href="@{/films/details/{id} (id=${film.id})}"><button class="btn btn-dark" th:text="#{film.view}"></button></a>
+                <a th:href="@{/films/edit/{id} (id=${film.id})}"><button class="btn btn-dark" th:text="#{film.editButton}"></button></a>
+                <a th:href="@{/films/rate/{id} (id=${film.id})}"><button class="btn btn-dark" th:text="#{film.rate}"></button></a></li>
+                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/header :: scripts}"></div>

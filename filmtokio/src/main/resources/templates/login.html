@@ -5,26 +5,31 @@
     <title th:text="#{common.signin}"></title>
 </head>
 <body>
-<h1>Sign in!</h1>
 <div th:replace="~{fragments/header :: header}"></div>
+<div class="container mt-5">
+<h1>Sign in!</h1>
 <form method="post" th:action="@{/login}" th:object="${loginDTO}">
-    <ul>
-        <li><label th:text = "#{common.username}"></label>
-            <input type="text" th:field="*{username}"></li>
+        <div class="mb-3" style="width: 100%; max-width: 300px;">
+            <label th:text = "#{common.username}" class="form-label"></label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
 
-        <li><label th:text = "#{common.password}"></label>
-            <input type="password" th:field="*{password}"></li>
+        <div class="mb-3" style="width: 100%; max-width: 300px;">
+            <label th:text = "#{common.password}" class="form-label"></label>
+            <input type="password" th:field="*{password}" class="form-control">
+        </div>
 
-       <div class="text-danger" th:if="${errorMsg != null}" th:text="#{${errorMsg}}"></div>
-    </ul>
-    <button type="submit" th:text="#{common.signin}"></button>
+       <div class="text-danger mb-3" style="width: 100%; max-width: 300px;" th:if="${errorMsg != null}" th:text="#{${errorMsg}}"></div>
+    <button type="submit" class="btn btn-dark mb-3" style="width: 100%; max-width: 300px;" th:text="#{common.signin}"></button>
 
-    <p th:text="#{login.account}" ></p>
-    <p><a th:href="@{/register}" th:text="#{login.register}"></a></p>
-
+    <div class="mb-3" style="width: 100%; max-width: 300px;">
+        <p  th:text="#{login.account}" class="form-text"></p>
+        <p><a th:href="@{/register}" th:text="#{login.register}" class="form-text"></a></p>
+    </div>
 </form>
+</div>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/footer :: footer}" ></div>
 <div th:replace="~{fragments/header :: scripts}"></div>
 </body>
 </html>

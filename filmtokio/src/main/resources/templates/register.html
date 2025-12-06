@@ -42,7 +42,7 @@
         <div class="text-danger" th:if="${#fields.hasErrors('passwordBis')}"
              th:errors="*{passwordBis}"></div>
     </ul>
-    <button type="submit" th:text="#{register.registerButton}"></button>
+    <button class="btn btn-dark" type="submit" th:text="#{register.registerButton}"></button>
 </form>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
