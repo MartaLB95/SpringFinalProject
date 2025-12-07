@@ -6,25 +6,27 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<div class="container mt-5">
+<div class="container mt-4">
 <h1>Sign in!</h1>
 <form method="post" th:action="@{/login}" th:object="${loginDTO}">
-        <div class="mb-3" style="width: 100%; max-width: 300px;">
+    <div class="col-md-4">
+        <div class="mb-3">
             <label th:text = "#{common.username}" class="form-label"></label>
             <input type="text" th:field="*{username}" class="form-control">
         </div>
 
-        <div class="mb-3" style="width: 100%; max-width: 300px;">
+        <div class="mb-3">
             <label th:text = "#{common.password}" class="form-label"></label>
             <input type="password" th:field="*{password}" class="form-control">
         </div>
 
-       <div class="text-danger mb-3" style="width: 100%; max-width: 300px;" th:if="${errorMsg != null}" th:text="#{${errorMsg}}"></div>
+       <div class="text-danger mb-3" th:if="${errorMsg != null}" th:text="#{${errorMsg}}"></div>
     <button type="submit" class="btn btn-dark mb-3" style="width: 100%; max-width: 300px;" th:text="#{common.signin}"></button>
 
-    <div class="mb-3" style="width: 100%; max-width: 300px;">
-        <p  th:text="#{login.account}" class="form-text"></p>
-        <p><a th:href="@{/register}" th:text="#{login.register}" class="form-text"></a></p>
+    <div class="mb-3">
+        <p  th:text="#{login.account}" class="form-text fs-6"></p>
+        <p><a th:href="@{/register}" th:text="#{login.register}" class="form-text  fs-4"></a></p>
+    </div>
     </div>
 </form>
 </div>

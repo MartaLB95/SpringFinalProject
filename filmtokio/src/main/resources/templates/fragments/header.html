@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>FilmoTokio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="/images/favicon.ico">
 </head>
 <body>
-<header class="header" th:fragment="header">
-    <nav class="navbar navbar-expand bg-dark border-bottom border-body" data-bs-theme="dark">
+<header class="header pb-5" th:fragment="header">
+    <nav class="navbar navbar-expand fixed-top bg-dark border-bottom border-body" data-bs-theme="dark">
         <!--Podría crear un logo si tengo tiempo-->
         <a class="navbar-brand" th:href="@{/films}">FilmoTokio</a>
         <div class="container-fluid">
@@ -16,7 +17,11 @@
             <li class="nav-item"><a class="nav-link" th:href="@{/films/create}" th:text="#{common.create}"></a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/films}" th:text="#{common.search}"></a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/artists/create}" th:text="#{common.artist}"></a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/login?logout}" th:text="#{common.logout}"></a></li>
+            <li class="nav-item">
+                <form th:action="@{/logout}" method="post" class="d-inline">
+                    <button type="submit" class="nav-link btn btn-link" th:text="#{common.logout}"></button>
+                </form>
+            </li>
             <li class="nav-item"> <a class="nav-link" th:href="@{/change-lang(lang='es')}">ES</a></li>
             <li class="nav-item"> <a class="nav-link" th:href="@{/change-lang(lang='en')}">EN</a></li>
             <li class="nav-item"> <a class="nav-link" th:href="@{/change-lang(lang='fr')}">FR</a></li>

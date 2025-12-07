@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +42,7 @@ public class RatingRestController {
     @PostMapping
     public Rating post (@RequestBody Rating rating){
         logger.info("POST /api/ratings/ called");
+        rating.setCreatedAt(LocalDateTime.now());
         return ratingServiceImpl.save(rating);
     }
 

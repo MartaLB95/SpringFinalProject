@@ -1,9 +1,7 @@
 package com.tokio.demo.controller;
 import com.tokio.demo.domain.*;
-import com.tokio.demo.service.impl.ActorServiceImpl;
-import com.tokio.demo.service.impl.DirectorServiceImpl;
-import com.tokio.demo.service.impl.FilmServiceImpl;
-import com.tokio.demo.service.impl.RatingServiceImpl;
+import com.tokio.demo.service.impl.*;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,8 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -30,12 +30,14 @@ public class FilmController {
     private final DirectorServiceImpl directorServiceImpl;
     private final ActorServiceImpl actorServiceImpl;
     private final RatingServiceImpl ratingServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
-    public FilmController(FilmServiceImpl filmServiceImpl, DirectorServiceImpl directorServiceImpl, ActorServiceImpl actorServiceImpl, RatingServiceImpl ratingServiceImpl) {
+    public FilmController(FilmServiceImpl filmServiceImpl, DirectorServiceImpl directorServiceImpl, ActorServiceImpl actorServiceImpl, RatingServiceImpl ratingServiceImpl, UserServiceImpl userServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;
         this.directorServiceImpl = directorServiceImpl;
         this.actorServiceImpl = actorServiceImpl;
         this.ratingServiceImpl = ratingServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping
@@ -52,14 +54,17 @@ public class FilmController {
     }
 
     @GetMapping ("/details/{id}")
-    public String getById(@PathVariable Long id, Model model){
+    public String getById(@PathVariable Long id, Model model, HttpSession session){
         /**Hay que indicar que Film es un optional y pasarle a thymeleaf algo distinto, ya que no puede
          * leer optionals. Además, si no pasamos "film" al model, thymeleaf no lo encontrará.
          */
         logger.info("GET/films/details/{} called", id);
         Film film=filmServiceImpl.findById(id);
+
         model.addAttribute("film", film);
+        model.addAttribute("actors", film.getActors());
         model.addAttribute("averageRating", ratingServiceImpl.findAverageScoreByFilmId(id));
+
         logger.info("detailsView form displayed");
 
         return "detailsView";

@@ -11,6 +11,6 @@ public interface RatingRepository extends JpaRepository <Rating, Long> {
 
     //Calcular la media de los scores
 
-    @Query("SELECT AVG(r.score) FROM Rating r WHERE r.film.id = :filmId")
+    @Query("SELECT COALESCE (AVG(r.score),0) FROM Rating r WHERE r.film.id = :filmId")
     Double findAverageScoreByFilmId(@Param("filmId") Long filmId);
 }
