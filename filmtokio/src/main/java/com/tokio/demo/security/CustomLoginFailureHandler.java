@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-    @Component
-    public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
+@Component
+public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
-        private static final Logger logger = LoggerFactory.getLogger(CustomLoginFailureHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomLoginFailureHandler.class);
 
-        @Override
-        public void onAuthenticationFailure(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            AuthenticationException exception) throws IOException {
-            response.sendRedirect("/login?error=true"); // redirige con parámetro para mostrar error
-            logger.error("Authentication failed");
-        }
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException {
+        response.sendRedirect("/login?error=true"); // redirige con parámetro para mostrar error
+        logger.error("Authentication failed");
     }
+}

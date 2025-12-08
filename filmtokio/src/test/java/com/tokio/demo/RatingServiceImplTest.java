@@ -67,8 +67,7 @@ public class RatingServiceImplTest {
             "When we call findAll()" +
             "We expect that all the ratings are shown")
     @Test
-    public void givenDifferentFilmsFindAll()
-    {
+    public void givenDifferentFilmsFindAll() {
 
         Mockito.when(ratingRepository.findAll()).thenReturn(ratings);
         final List<Rating> result = ratingServiceImpl.findAll();
@@ -87,8 +86,8 @@ public class RatingServiceImplTest {
             "When we call findById()" +
             "We expect that the rating with the given id is found")
 
-    @Test public void givenIdFindRating()
-    {
+    @Test
+    public void givenIdFindRating() {
         Mockito.when(ratingRepository.findById(1L)).thenReturn(Optional.ofNullable(rating));
         Mockito.when(ratingRepository.findById(8L)).thenReturn(Optional.empty());
 
@@ -96,7 +95,7 @@ public class RatingServiceImplTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(5, result.get().getScore());
-        Assertions.assertThrows(RatingNotFoundException.class,() -> {
+        Assertions.assertThrows(RatingNotFoundException.class, () -> {
             ratingServiceImpl.findById(8L);
         });
         Mockito.verify(ratingRepository).findById(1L);
@@ -107,8 +106,7 @@ public class RatingServiceImplTest {
             "When we call save()" +
             "We expect that the rating is created")
     @Test
-    public void givenFilmToCreateExpectedCreatedRating()
-    {
+    public void givenFilmToCreateExpectedCreatedRating() {
 
         Mockito.when(ratingRepository.save(any(Rating.class))).thenReturn(rating);
         final Rating result = ratingServiceImpl.save(rating);
@@ -124,8 +122,7 @@ public class RatingServiceImplTest {
             "When we call delete()" +
             "We expect that the rating is deleted")
     @Test
-    public void givenDeleteExpectedDeletedRating()
-    {
+    public void givenDeleteExpectedDeletedRating() {
         Mockito.when(ratingRepository.existsById(1L)).thenReturn(true);
 
         ratingServiceImpl.delete(1L);
@@ -139,9 +136,8 @@ public class RatingServiceImplTest {
             "When we call findAverageScoreByFilmId()" +
             "We expect that the average of the ratings is shown")
     @Test
-    public void givenIdFindAverageRating()
-    {
-        List <Rating> ratings=List.of(rating, rating2);
+    public void givenIdFindAverageRating() {
+        List<Rating> ratings = List.of(rating, rating2);
 
         Mockito.when(ratingRepository.findAverageScoreByFilmId(1L)).thenReturn(4.5);
         final double result = ratingServiceImpl.findAverageScoreByFilmId(1L);
@@ -151,13 +147,6 @@ public class RatingServiceImplTest {
         Mockito.verify(ratingRepository).findAverageScoreByFilmId(1L);
 
     }
-
-
-
-
-
-
-
 
 
 }

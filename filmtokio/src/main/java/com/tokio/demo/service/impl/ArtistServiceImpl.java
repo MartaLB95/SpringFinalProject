@@ -1,6 +1,5 @@
 package com.tokio.demo.service.impl;
 
-import com.tokio.demo.controller.RatingRestController;
 import com.tokio.demo.domain.Artist;
 import com.tokio.demo.repository.ArtistRepository;
 import org.slf4j.Logger;
@@ -24,21 +23,21 @@ public class ArtistServiceImpl implements ArtistService {
         this.artistRepository = artistRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
-    public List<Artist> findAll(){
+    public List<Artist> findAll() {
         logger.info("Service: fetching all artists");
         return artistRepository.findAll();
     }
 
     @Override
-    public Optional <Artist> findById(Long id){
+    public Optional<Artist> findById(Long id) {
         logger.info("Service: fetching artist with id {}", id);
         return artistRepository.findById(id);
     }
 
     @Override
-    public Artist save(Artist artist){
+    public Artist save(Artist artist) {
         logger.info("Artist created");
         return artistRepository.save(artist);
     }

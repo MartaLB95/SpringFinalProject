@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Import;
 public class FilmTokioBatchApplication {
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(FilmTokioBatchApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FilmTokioBatchApplication.class, args);
+    }
 
 }

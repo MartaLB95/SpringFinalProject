@@ -1,9 +1,11 @@
 package com.tokio.demo.batch;
 
-import com.tokio.demo.batch.configuration.BatchConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.*;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,29 +20,29 @@ public class FilmBatchRunner implements CommandLineRunner {
     private JobLauncher launcher;
     private Job filmJob;
 
-    public FilmBatchRunner(JobLauncher launcher, Job filmJob){
-        this.launcher=launcher;
-        this.filmJob=filmJob;
+    public FilmBatchRunner(JobLauncher launcher, Job filmJob) {
+        this.launcher = launcher;
+        this.filmJob = filmJob;
     }
 
     @Override
     public void run(String... args) {
 
 
-       try{ // Crear parámetros para el job
-        JobParameters params = new JobParametersBuilder()
-                .addLong("time", System.currentTimeMillis())
-                .toJobParameters();
+        try { // Crear parámetros para el job
+            JobParameters params = new JobParametersBuilder()
+                    .addLong("time", System.currentTimeMillis())
+                    .toJobParameters();
 
-        logger.info("Launching filmJob with parameters: {}", params);
-        // Ejecutar el Job
-        JobExecution execution = launcher.run(filmJob, params);
+            logger.info("Launching filmJob with parameters: {}", params);
+            // Ejecutar el Job
+            JobExecution execution = launcher.run(filmJob, params);
 
-        // Mostrar resultado
-        logger.info("Job status: " + execution.getStatus());
-       } catch (Exception e){
-           e.printStackTrace();
-       }
+            // Mostrar resultado
+            logger.info("Job status: " + execution.getStatus());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

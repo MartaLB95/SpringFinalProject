@@ -16,7 +16,10 @@
           <input type="text" th:field="*{lastname}" class="form-control">
       <div class="mb-3">
       <label th:text="#{artist.type}" class="form-label"></label>
-          <input type="text" th:field="*{type}" class="form-control">
+          <select name="type" class="form-select">
+              <option value="Actor">Actor</option>
+              <option value="Director">Director</option>
+          </select>
       </div>
       <input type="submit" th:value="#{common.submit}" class="btn btn-dark mb-3">
         </div>

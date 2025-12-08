@@ -32,8 +32,8 @@ public class FilmServiceImplTest {
     private List<Film> films;
 
     @BeforeEach
-   void setup() {
-         film = new Film(1L,
+    void setup() {
+        film = new Film(1L,
                 "Inception",
                 2010,
                 Collections.emptySet(), // actores vacíos
@@ -41,7 +41,7 @@ public class FilmServiceImplTest {
                 null,                   // sin póster
                 Collections.emptySet());
 
-         film2 = new Film(2L,
+        film2 = new Film(2L,
                 "Harry Potter",
                 2002,
                 Collections.emptySet(), // actores vacíos
@@ -49,15 +49,14 @@ public class FilmServiceImplTest {
                 null,                   // sin póster
                 Collections.emptySet());
 
-         films = List.of(film, film2);
+        films = List.of(film, film2);
     }
 
     @DisplayName("Given a list of films" +
             "When we call findAll()" +
             "We expect that all the films are shown")
     @Test
-    public void givenDifferentFilmsFindAll()
-    {
+    public void givenDifferentFilmsFindAll() {
 
         Mockito.when(filmRepository.findAll()).thenReturn(films);
         final List<Film> result = filmServiceImpl.findAll();
@@ -76,8 +75,7 @@ public class FilmServiceImplTest {
             "When we call findById()" +
             "We expect that the film with the given id is found")
     @Test
-    public void givenIdFindFilm()
-    {
+    public void givenIdFindFilm() {
 
         Mockito.when(filmRepository.findById(1L)).thenReturn(Optional.ofNullable(film));
         final Film result = filmServiceImpl.findById(1L);
@@ -85,9 +83,9 @@ public class FilmServiceImplTest {
         Assertions.assertNotNull(result);
         Assertions.assertEquals("Inception", result.getTitle());
         Assertions.assertEquals(2010, result.getReleaseDate());
-        Assertions.assertThrows(EntityNotFoundException.class,() -> {
-        filmServiceImpl.findById(8L);
-    });
+        Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            filmServiceImpl.findById(8L);
+        });
         Mockito.verify(filmRepository).findById(1L);
 
     }
@@ -96,8 +94,7 @@ public class FilmServiceImplTest {
             "When we call save()" +
             "We expect that the film is created")
     @Test
-    public void givenFilmToCreateExpectedCreatedFilm()
-    {
+    public void givenFilmToCreateExpectedCreatedFilm() {
 
         Mockito.when(filmRepository.save(any(Film.class))).thenReturn(film);
         final Film result = filmServiceImpl.save(film);
@@ -113,12 +110,11 @@ public class FilmServiceImplTest {
             "When we call findByTitleContaining()" +
             "We see all the films containing this text in their title")
     @Test
-    public void givenTextSearchFilmsByTitle()
-    {
+    public void givenTextSearchFilmsByTitle() {
         List<Film> expected = List.of(film2);
 
         Mockito.when(filmRepository.findByTitleContaining("ott")).thenReturn(expected);
-        final List <Film> result = filmServiceImpl.findByTitleContaining("ott");
+        final List<Film> result = filmServiceImpl.findByTitleContaining("ott");
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
@@ -126,9 +122,6 @@ public class FilmServiceImplTest {
         Assertions.assertEquals("Harry Potter", result.get(0).getTitle());
 
     }
-
-
-
 
 
 }

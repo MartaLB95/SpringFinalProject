@@ -30,84 +30,85 @@ import java.nio.file.Paths;
 
 
 @Configuration
-    //Esta anotación habilita el soporte para Spring Batch
-    @EnableBatchProcessing
-    public class BatchConfig{
+//Esta anotación habilita el soporte para Spring Batch
+@EnableBatchProcessing
+public class BatchConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(BatchConfig.class);
 
 
     @Bean
-        public JdbcCursorItemReader<Film> filmReader(DataSource dataSource) {
+    public JdbcCursorItemReader<Film> filmReader(DataSource dataSource) {
         logger.info("Initializing Film JDBC reader with SQL query");
         JdbcCursorItemReader<Film> reader = new JdbcCursorItemReader<>();
 
 
-            //BDD
-            reader.setDataSource(dataSource);
-            //Consulta sql
-            reader.setSql("Select id, title, release_date, poster FROM films");
+        //BDD
+        reader.setDataSource(dataSource);
+        //Consulta sql
+        reader.setSql("Select id, title, release_date, poster FROM films");
 
-            //Mapeo de cada fila a un objeto Film
-            reader.setRowMapper((rs, rowNum) -> {
-                Film film = new Film();
-                film.setId(rs.getLong("id"));
-                film.setTitle(rs.getString("title"));
-                film.setReleaseDate(rs.getInt("release_date"));
-                film.setPoster(rs.getString("poster"));
-                return film;
-            });
-            logger.info("Film reader configured");
-            return reader;
+        //Mapeo de cada fila a un objeto Film
+        reader.setRowMapper((rs, rowNum) -> {
+            Film film = new Film();
+            film.setId(rs.getLong("id"));
+            film.setTitle(rs.getString("title"));
+            film.setReleaseDate(rs.getInt("release_date"));
+            film.setPoster(rs.getString("poster"));
+            return film;
+        });
+        logger.info("Film reader configured");
+        return reader;
 
-        }
-
-        @Bean
-        public FlatFileItemWriter<Film> filmWriter() throws IOException {
-            FlatFileItemWriter<Film> writer = new FlatFileItemWriter<>();
-
-            //Crea la carpeta output si no existe
-            Files.createDirectories(Paths.get("output"));
-            logger.info("Output directory created");
-
-            //Archivo de salida
-            logger.info("Configuring FlatFileItemWriter for films_export.csv");
-            writer.setResource(new FileSystemResource("output/films_export.csv"));
-
-            //Campos que vamos a incluir
-            BeanWrapperFieldExtractor<Film> fieldExtractor = new BeanWrapperFieldExtractor<>();
-            fieldExtractor.setNames(new String[]{"id", "title", "releaseDate", "poster"});
-
-            //Para que cada film sea una línea de texto
-            DelimitedLineAggregator<Film> aggregator = new DelimitedLineAggregator<>();
-            aggregator.setFieldExtractor(fieldExtractor);
-            writer.setLineAggregator(aggregator);
-
-            logger.info("Film writer configured");
-
-            return writer;
     }
+
     @Bean
-    public Step step (JobRepository jobRepository,
-                      PlatformTransactionManager transactionManager,
-                      ItemReader<Film> filmReader,
-                      ItemWriter<Film> filmWriter){
+    public FlatFileItemWriter<Film> filmWriter() throws IOException {
+        FlatFileItemWriter<Film> writer = new FlatFileItemWriter<>();
+
+        //Crea la carpeta output si no existe
+        Files.createDirectories(Paths.get("output"));
+        logger.info("Output directory created");
+
+        //Archivo de salida
+        logger.info("Configuring FlatFileItemWriter for films_export.csv");
+        writer.setResource(new FileSystemResource("output/films_export.csv"));
+
+        //Campos que vamos a incluir
+        BeanWrapperFieldExtractor<Film> fieldExtractor = new BeanWrapperFieldExtractor<>();
+        fieldExtractor.setNames(new String[]{"id", "title", "releaseDate", "poster"});
+
+        //Para que cada film sea una línea de texto
+        DelimitedLineAggregator<Film> aggregator = new DelimitedLineAggregator<>();
+        aggregator.setFieldExtractor(fieldExtractor);
+        writer.setLineAggregator(aggregator);
+
+        logger.info("Film writer configured");
+
+        return writer;
+    }
+
+    @Bean
+    public Step step(JobRepository jobRepository,
+                     PlatformTransactionManager transactionManager,
+                     ItemReader<Film> filmReader,
+                     ItemWriter<Film> filmWriter) {
 
         logger.info("Step getting ready to create files with chunks of size 10");
-            return new StepBuilder("exportFilmsStep", jobRepository)
-                    .<Film, Film>chunk(10, transactionManager)
-                    .reader(filmReader)
+        return new StepBuilder("exportFilmsStep", jobRepository)
+                .<Film, Film>chunk(10, transactionManager)
+                .reader(filmReader)
                 .writer(filmWriter)
                 .build();
     }
 
     @Bean
-    public Job filmJob (JobRepository jobRepository, Step step){
+    public Job filmJob(JobRepository jobRepository, Step step) {
         logger.info("Registering job 'filmJob'");
-            return new JobBuilder("filmJob", jobRepository)
-                    .start(step)
-                    .incrementer(new RunIdIncrementer())
-                    .build();
+        return new JobBuilder("filmJob", jobRepository)
+                .start(step)
+                .incrementer(new RunIdIncrementer())
+                .build();
     }
 
 }

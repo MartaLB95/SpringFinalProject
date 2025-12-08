@@ -23,15 +23,15 @@ public class DirectorServiceImpl implements DirectorService {
         this.directorRepository = directorRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
-    public List<Director> findAll(){
+    public List<Director> findAll() {
         logger.info("Service: fetching all directors");
         return directorRepository.findAll();
     }
 
     @Override
-    public Optional<Director> findById(Long id){
+    public Optional<Director> findById(Long id) {
         logger.info("Service: fetching director with id {}", id);
         return directorRepository.findById(id);
     }

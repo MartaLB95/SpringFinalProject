@@ -1,9 +1,14 @@
 package com.tokio.demo.controller;
-import com.tokio.demo.domain.*;
+
+import com.tokio.demo.domain.Actor;
+import com.tokio.demo.domain.Director;
+import com.tokio.demo.domain.Film;
+import com.tokio.demo.domain.User;
 import com.tokio.demo.service.impl.*;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +21,6 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -41,11 +45,11 @@ public class FilmController {
     }
 
     @GetMapping
-    public String getAll(String titleFragment, Model model){
+    public String getAll(String titleFragment, Model model) {
         logger.info("GET/films/ called");
-        if(titleFragment != null && !titleFragment.isEmpty() ){
-             model.addAttribute("films", filmServiceImpl.findByTitleContaining(titleFragment));
-        }else {
+        if (titleFragment != null && !titleFragment.isEmpty()) {
+            model.addAttribute("films", filmServiceImpl.findByTitleContaining(titleFragment));
+        } else {
             model.addAttribute("films", filmServiceImpl.findAll());
         }
         model.addAttribute("searchQuery", titleFragment);
@@ -53,28 +57,33 @@ public class FilmController {
         return "searchFilm";
     }
 
-    @GetMapping ("/details/{id}")
-    public String getById(@PathVariable Long id, Model model, HttpSession session){
+    @GetMapping("/details/{id}")
+    public String getById(@PathVariable Long id, Model model, Principal principal) {
         /**Hay que indicar que Film es un optional y pasarle a thymeleaf algo distinto, ya que no puede
          * leer optionals. Además, si no pasamos "film" al model, thymeleaf no lo encontrará.
          */
         logger.info("GET/films/details/{} called", id);
-        Film film=filmServiceImpl.findById(id);
+        Film film = filmServiceImpl.findById(id);
 
         model.addAttribute("film", film);
         model.addAttribute("actors", film.getActors());
         model.addAttribute("averageRating", ratingServiceImpl.findAverageScoreByFilmId(id));
+
+        User currentUser = userServiceImpl.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        model.addAttribute("user", currentUser);
 
         logger.info("detailsView form displayed");
 
         return "detailsView";
     }
 
-    @GetMapping ("/create")
-    public String showCreateForm(Model model){
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
 
         logger.info("GET/films/create called");
-        Film film= new Film();
+        Film film = new Film();
         film.setDirector(new Director());
         model.addAttribute("film", film);
 
@@ -82,7 +91,7 @@ public class FilmController {
         if (directors == null) directors = new ArrayList<>();
         model.addAttribute("directors", directors);
 
-        List <Actor> actors = actorServiceImpl.findAll();
+        List<Actor> actors = actorServiceImpl.findAll();
         if (actors == null) actors = new ArrayList<>();
         model.addAttribute("actors", actors);
 
@@ -92,10 +101,10 @@ public class FilmController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model){
+    public String showEditForm(@PathVariable Long id, Model model) {
 
         logger.info("GET/films/edit/{} called", id);
-        Film film= filmServiceImpl.findById(id);
+        Film film = filmServiceImpl.findById(id);
         model.addAttribute("film", film);
         //Para que se muestren todos los actores y todos los directores disponibles
         model.addAttribute("directors", directorServiceImpl.findAll());
@@ -106,17 +115,25 @@ public class FilmController {
 
     }
 
-    @GetMapping ("/rate/{id}")
-    public String showRateForm(@PathVariable Long id, Model model) {
+    @GetMapping("/rate/{id}")
+    public String showRateForm(@PathVariable Long id, Model model, Principal principal, HttpServletRequest request) {
         logger.info("GET/films/rate/{} called", id);
         Film film = filmServiceImpl.findById(id);
         model.addAttribute("film", film);
+        // CSRF token
+        CsrfToken csrf = (CsrfToken) request.getAttribute("_csrf");
+        model.addAttribute("_csrf", csrf);
+
+        // Current user
+        User currentUser = userServiceImpl.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("user", currentUser);
         logger.info("rateFilm form displayed");
         return "rateFilm";
     }
 
 
-    @PostMapping ("/create")
+    @PostMapping("/create")
     public String post(@ModelAttribute Film film, @RequestParam Long directorId, Model model,
                        @RequestParam("posterFile") MultipartFile poster) throws IOException {
 
@@ -139,23 +156,23 @@ public class FilmController {
                 return "redirect:/films/create";
             }
 
-            String fileName= UUID.randomUUID() + "-" + poster.getOriginalFilename();
+            String fileName = UUID.randomUUID() + "-" + poster.getOriginalFilename();
             fileName = Paths.get(fileName).getFileName().toString();
             Path uploadImage = Paths.get("uploads/posters");
             Files.createDirectories(uploadImage);
             poster.transferTo(uploadImage.resolve(fileName));
             film.setPoster(fileName);
-    }
+        }
 
 
         //Guardar película
         filmServiceImpl.save(film);
         logger.info("The film has been created successfully with title {}", film.getTitle());
         //Devolver vista (volver a la lista de películas)
-            return "redirect:/films";
+        return "redirect:/films";
     }
 
-    @PostMapping ("/edit/{id}")
+    @PostMapping("/edit/{id}")
     public String update(@PathVariable Long id, @ModelAttribute Film film, @RequestParam Long directorId, Model model, @RequestParam("posterFile") MultipartFile poster) throws IOException {
 
         Film existingFilm = filmServiceImpl.findById(id);
@@ -186,13 +203,12 @@ public class FilmController {
             film.setPoster(existingFilm.getPoster());
         }
 
-            //Guardar película editada
-            filmServiceImpl.save(film);
-            logger.info("The film with id {} has been edited successfully", id);
-            //Devolver vista (volver a la lista de películas)
-            return "redirect:/films";
-        }
-
+        //Guardar película editada
+        filmServiceImpl.save(film);
+        logger.info("The film with id {} has been edited successfully", id);
+        //Devolver vista (volver a la lista de películas)
+        return "redirect:/films";
+    }
 
 
 }

@@ -1,19 +1,15 @@
 package com.tokio.demo.service.impl;
 
-import com.tokio.demo.controller.RatingRestController;
 import com.tokio.demo.domain.Actor;
 import com.tokio.demo.repository.ActorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Lazy(true) //para que solo se ejecute cuando sea necesario
@@ -28,21 +24,21 @@ public class ActorServiceImpl implements ActorService {
         this.actorRepository = actorRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
-    public List<Actor> findAll(){
+    public List<Actor> findAll() {
         logger.info("Service: fetching all actors");
         return actorRepository.findAll();
     }
 
     @Override
-    public Actor save(Actor actor){
+    public Actor save(Actor actor) {
         logger.info("New actor created");
         return actorRepository.save(actor);
     }
 
     @Override
-    public Optional <Actor> findById(Long id){
+    public Optional<Actor> findById(Long id) {
         logger.info("Service: fetching actor with id{}", id);
         return actorRepository.findById(id);
     }

@@ -24,9 +24,9 @@ public class FilmServiceImpl implements FilmService {
         this.filmRepository = filmRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
-    public List<Film> findAll(){
+    public List<Film> findAll() {
         logger.info("Service: fetching all films");
         return filmRepository.findAll();
     }
@@ -39,12 +39,12 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Film save(Film film){
+    public Film save(Film film) {
         logger.info("Film created");
         return filmRepository.save(film);
     }
 
-    public List <Film> findByTitleContaining(String titleFragment){
+    public List<Film> findByTitleContaining(String titleFragment) {
         logger.info("Search films with title containing {}", titleFragment);
         return filmRepository.findByTitleContaining(titleFragment);
     }

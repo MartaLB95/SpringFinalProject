@@ -29,6 +29,7 @@ public class WebSecurityConfig {
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,7 +44,6 @@ public class WebSecurityConfig {
     }
 
 
-
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -55,11 +55,11 @@ public class WebSecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .exceptionHandling(ex -> ex
-                    .authenticationEntryPoint((request, response, authException) ->
-                        response.sendRedirect("/login"))
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendRedirect("/login"))
                 )
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
@@ -85,14 +85,14 @@ public class WebSecurityConfig {
                                     "#{error.permission}");
                             request.getRequestDispatcher("/app-error").forward(request, response);
                         }))
-                 .logout(logout -> logout
-                                 .invalidateHttpSession(true)
-                                 .deleteCookies("JESSIONID")
-                .logoutSuccessUrl("/login?logout")
-                         .permitAll()
-                         
-                 );
-                return http.build();
+                .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JESSIONID")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+
+                );
+        return http.build();
     }
 
 }

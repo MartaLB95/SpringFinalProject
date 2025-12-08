@@ -2,74 +2,80 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/header :: head}">
     <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Ratings</title>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container mt-4">
-<h1 th:text="#{ratings.rateFilm}"></h1>
-<h2 th:text="${film.getTitle()}"></h2>
-<form id="rateForm" data-film-id="${film.id}" data-user-id="${currentUserId}" onsubmit="submitRating(); return false;">
+    <h1 th:text="#{ratings.rateFilm}"></h1>
+    <h2 th:text="${film.getTitle()}"></h2>
+    <form id="rateForm" th:attr="data-film-id=${film.id}">
 
-    <div class="col md-4">
-    <div class="btn-toolbar mb-5" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group me-3 mt-5" role="group" aria-label="group">
-            <input type="radio" value="1" name="score" id="score1" class="btn-check">
-            <label class="btn btn-outline-dark" for="score1">1</label>
-            <input type="radio" value="2" name="score" id="score2" class="btn-check">
-            <label class="btn btn-outline-dark" for="score2">2</label>
-            <input type="radio" value="3" name="score" id="score3" class="btn-check">
-            <label class="btn btn-outline-dark" for="score3">3</label>
-            <input type="radio" value="4" name="score" id="score4" class="btn-check">
-            <label class="btn btn-outline-dark" for="score4">4</label>
-            <input type="radio" value="5" name="score" id="score5" class="btn-check">
-            <label class="btn btn-outline-dark" for="score5">5</label>
-        </div>
-    </div>
-        <div>
-             <input type="submit" th:value="#{common.submit}" class="btn btn-dark mb-3">
-        </div>
+        <div class="col md-4">
+            <div class="btn-toolbar mb-5" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group me-3 mt-5" role="group" aria-label="group">
+                    <input type="radio" value="1" name="score" id="score1" class="btn-check">
+                    <label class="btn btn-outline-dark" for="score1">1</label>
+                    <input type="radio" value="2" name="score" id="score2" class="btn-check">
+                    <label class="btn btn-outline-dark" for="score2">2</label>
+                    <input type="radio" value="3" name="score" id="score3" class="btn-check">
+                    <label class="btn btn-outline-dark" for="score3">3</label>
+                    <input type="radio" value="4" name="score" id="score4" class="btn-check">
+                    <label class="btn btn-outline-dark" for="score4">4</label>
+                    <input type="radio" value="5" name="score" id="score5" class="btn-check">
+                    <label class="btn btn-outline-dark" for="score5">5</label>
+                </div>
+            </div>
+            <div>
+                <input type="submit" th:value="#{common.submit}" class="btn btn-dark mb-3">
+            </div>
 
-    </div>
-</form>
+        </div>
+    </form>
 </div>
-<script>
-    const token = document.querySelector('meta[name="_csrf"]').content;
-    const header = document.querySelector('meta[name="_csrf_header"]').content;
-
-  function submitRating() {
-      const score = document.querySelector('input[name="score"]:checked')?.value;
-if (!score) {
-  alert("Please select a rating");
-  return;
-}
-      const filmId = document.getElementById("rateForm").dataset.filmId;
-      const userId = document.getElementById("rateForm").dataset.userId;
-
-
-      fetch("/api/ratings", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              [header]: token
-          },
-          body: JSON.stringify({
-              score: score,
-              film: { id: filmId },
-              user: { id: userId }
-          })
-      })
-      .then(response => {
-          if (!response.ok) throw new Error("Error saving rating");
-          window.location.href = "/films"; // redirige a lista
-      })
-      .catch(error => alert(error));
-  }
-</script>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/header :: scripts}"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("rateForm");
+
+        // Listener moderno que previene el submit normal
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const score = document.querySelector('input[name="score"]:checked')?.value;
+            if (!score) {
+                alert("Please select a rating");
+                return;
+            }
+
+            const filmId = form.dataset.filmId;
+
+            try {
+                const response = await fetch("/api/ratings", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        score: score,
+                        film: { id: filmId }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error saving rating");
+                }
+
+                // Redirigir después de guardar
+                window.location.href = "/films";
+            } catch (error) {
+                alert(error);
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-    @Component
-    public class CustomLoginSucessHandler implements AuthenticationSuccessHandler {
+@Component
+public class CustomLoginSucessHandler implements AuthenticationSuccessHandler {
 
-        private static final Logger logger = LoggerFactory.getLogger(CustomLoginSucessHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomLoginSucessHandler.class);
 
-        @Override
-        public void onAuthenticationSuccess(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            Authentication authentication) throws IOException {
-            response.sendRedirect("/films"); // redirige al dashboard/películas
-            logger.error("Authentication success");
-        }
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
+        response.sendRedirect("/films"); // redirige al dashboard/películas
+        logger.error("Authentication success");
     }
+}

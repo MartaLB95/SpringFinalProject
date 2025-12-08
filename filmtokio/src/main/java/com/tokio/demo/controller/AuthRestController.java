@@ -1,4 +1,5 @@
 package com.tokio.demo.controller;
+
 import com.tokio.demo.dto.api.JwtRequest;
 import com.tokio.demo.dto.api.JwtResponse;
 import com.tokio.demo.security.JwtUtil;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping ("/api/auth")
+@RequestMapping("/api/auth")
 public class AuthRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthRestController.class);
@@ -31,18 +32,18 @@ public class AuthRestController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping (value="/login", consumes="application/json", produces="application/json")
-    public ResponseEntity<?> login (@RequestBody JwtRequest authRequest) throws Exception{
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-                    logger.info("Authentication attempt for user {}", authRequest.getUsername());
+            logger.info("Authentication attempt for user {}", authRequest.getUsername());
         } catch (BadCredentialsException e) {
             logger.warn("Incorrect user or password");
             return ResponseEntity.status(401).body("Incorrect user or password");
         }
-        final UserDetails userDetails= userDetailsService.loadUserByUsername(authRequest.getUsername());
-        final String token=jwtUtil.generateToken(userDetails);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+        final String token = jwtUtil.generateToken(userDetails);
         logger.info("Login successful");
         return ResponseEntity.ok(new JwtResponse(token));
     }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RatingRepository extends JpaRepository <Rating, Long> {
+public interface RatingRepository extends JpaRepository<Rating, Long> {
 
     //Calcular la media de los scores
 

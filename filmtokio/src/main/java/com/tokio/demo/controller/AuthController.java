@@ -48,22 +48,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public String postRegister
-            (@Valid @ModelAttribute UserRegisterDTO userRegisterDTO,  BindingResult result, Model model) {
+            (@Valid @ModelAttribute UserRegisterDTO userRegisterDTO, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             logger.error("Register error");
             return "register";
         }
-            if (userServiceImpl.existsByUsername(userRegisterDTO.getUsername())) {
-                result.rejectValue("username",  "error.userRegisterDTO", "Username already exists");
-                logger.error("Username already exists");
-                return "register";
-            }
-
-            userServiceImpl.save(userRegisterDTO);
-            logger.info("user {} registered successfully", userRegisterDTO.getUsername());
-            return "redirect:/films";
+        if (userServiceImpl.existsByUsername(userRegisterDTO.getUsername())) {
+            result.rejectValue("username", "error.userRegisterDTO", "Username already exists");
+            logger.error("Username already exists");
+            return "register";
         }
+
+        userServiceImpl.save(userRegisterDTO);
+        logger.info("user {} registered successfully", userRegisterDTO.getUsername());
+        return "redirect:/films";
+    }
 
 
 }

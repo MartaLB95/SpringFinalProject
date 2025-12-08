@@ -7,42 +7,43 @@
 <body>
 <div th:replace="~{fragments/header::header}"></div>
 <div class="container mt-4">
-<h1 th:text="#{film.edit}"></h1>
-<form method="post" th:action="@{/films/edit/{id}(id=${film.id})}" th:object="${film}" enctype="multipart/form-data">
+    <h1 th:text="#{film.edit}"></h1>
+    <form method="post" th:action="@{/films/edit/{id}(id=${film.id})}" th:object="${film}"
+          enctype="multipart/form-data">
 
-    <div class="col-md-4 ml-3">
-        <div class="mb-3">
-        <label th:text="#{film.title}" class="form-label"></label>
-            <input type="text" th:field="*{title}" class="form-control"/>
-        </div>
+        <div class="col-md-4 ml-3">
+            <div class="mb-3">
+                <label th:text="#{film.title}" class="form-label"></label>
+                <input type="text" th:field="*{title}" class="form-control"/>
+            </div>
 
-        <div class="mb-3">
-        <label th:text="#{film.release}" class="form-label"></label>
-            <input type="text" th:field="*{releaseDate}" class="form-control"/>
-        </div>
+            <div class="mb-3">
+                <label th:text="#{film.release}" class="form-label"></label>
+                <input type="text" th:field="*{releaseDate}" class="form-control"/>
+            </div>
 
-        <div class="mb-3">
-        <label th:text="#{film.director}" class="form-label"></label>
-            <select name="directorId" required>
-                <option value="" disabled selected th:text="#{film.selectDirector}" class="form-select"></option>
-                <option th:each="d : ${directors}" th:value="${d.id}" th:text="${d.name+' '+d.lastname}" ></option>
-            </select>
-        </div>
-        <div class="mb-3">
-        <label th:text="#{film.actors}" class="form-label"></label>
-            <select multiple th:field="*{actors}" class="form-select">
-                <option th:each="a : ${actors}" th:value="${a.id}" th:text="${a.name +' '+a.lastname}"></option>
-            </select>
-        </div>
+            <div class="mb-3">
+                <label th:text="#{film.director}" class="form-label"></label>
+                <select name="directorId" required>
+                    <option value="" disabled selected th:text="#{film.selectDirector}" class="form-select"></option>
+                    <option th:each="d : ${directors}" th:value="${d.id}" th:text="${d.name+' '+d.lastname}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label th:text="#{film.actors}" class="form-label"></label>
+                <select multiple th:field="*{actors}" class="form-select">
+                    <option th:each="a : ${actors}" th:value="${a.id}" th:text="${a.name +' '+a.lastname}"></option>
+                </select>
+            </div>
 
-       <div class="mb-3">
-           <label for="posterFile" class="btn btn-outline-dark" th:text="#{common.submitPoster}"></label>
-           <!--This is the hidden real imput so that we can show only the submit file button-->
-           <input type="file" id="posterFile" name="posterFile" style="display:none"/>
-       </div>
-<input class="btn btn-dark mb-3" type="submit" th:value="#{common.update}"/>
-    </div>
-</form>
+            <div class="mb-3">
+                <label for="posterFile" class="btn btn-outline-dark" th:text="#{common.submitPoster}"></label>
+                <!--This is the hidden real imput so that we can show only the submit file button-->
+                <input type="file" id="posterFile" name="posterFile" style="display:none"/>
+            </div>
+            <input class="btn btn-dark mb-3" type="submit" th:value="#{common.update}"/>
+        </div>
+    </form>
 </div>
 
 <div th:replace="~{fragments/footer::footer}"></div>

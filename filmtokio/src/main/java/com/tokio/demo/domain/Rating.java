@@ -1,6 +1,5 @@
 package com.tokio.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,30 +15,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="ratings")
+@Table(name = "ratings")
 public class Rating {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column (name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     //LocalDateTime para que guarde fecha y hora
     private LocalDateTime createdAt;
 
-    @Column (name="score", nullable = false)
+    @Column(name = "score", nullable = false)
     private int score;
     //Tengo que ver cómo conecto esto
 
     @ManyToOne
     @JsonIgnoreProperties("film")
-    @JoinColumn (name="filmId", nullable = false)
+    @JoinColumn(name = "filmId", nullable = false)
     private Film film;
 
 
     @ManyToOne
     @JsonIgnoreProperties("user")
-    @JoinColumn (name="userId", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
 

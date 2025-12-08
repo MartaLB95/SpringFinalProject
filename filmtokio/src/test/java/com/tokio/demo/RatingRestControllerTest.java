@@ -8,11 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.security.Principal;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc (addFilters = false)
+@AutoConfigureMockMvc(addFilters = false)
 
 public class RatingRestControllerTest {
 
@@ -20,7 +22,7 @@ public class RatingRestControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void testGetRatings() throws Exception{
+    void testGetRatings() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ratings"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -29,7 +31,7 @@ public class RatingRestControllerTest {
     @Test
     void testGetRatingById() throws Exception {
 
-        int id=2;
+        int id = 2;
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ratings/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -39,18 +41,24 @@ public class RatingRestControllerTest {
     void testPostRating() throws Exception {
 
         String ratingJson = """
-            {
-                 "createdAt": "2025-11-23T12:00:00",
-                 "score": 5,
-                 "film": { "id": 2 },
-                 "user": { "id": 2 }
-            }
-            """;
+                {
+                     "score": 5,
+                     "film": { "id": 2 }
+                }
+                """;
+
         mockMvc.perform(MockMvcRequestBuilders.post("/api/ratings")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(ratingJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ratingJson)
+                        .principal(new Principal() {
+                            @Override
+                            public String getName() {
+                                return "coco"; // simulated username
+                            }
+                        }))
                 .andExpect(status().isOk());
     }
+
     @Test
     void testDeleteRating() throws Exception {
         Long id = 9L;
@@ -59,5 +67,4 @@ public class RatingRestControllerTest {
     }
 
 
-
-    }
+}

@@ -12,5 +12,5 @@ public interface FilmService {
 
     Film save(Film film);
 
-    List <Film>  findByTitleContaining(String titleFragment);
+    List<Film> findByTitleContaining(String titleFragment);
 }

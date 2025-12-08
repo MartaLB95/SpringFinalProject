@@ -22,22 +22,23 @@ public class GlobalWebExceptionHandler {
         return "error/error";
     }
 
-    @ExceptionHandler (EntityNotFoundException.class)
-    public String handleNotFound (EntityNotFoundException ex, Model model) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public String handleNotFound(EntityNotFoundException ex, Model model) {
         model.addAttribute("errorCode", 404);
         model.addAttribute("errorMessage", ex.getMessage());
         logger.warn("Entity not found", ex);
         return "error/error";
     }
 
-    @ExceptionHandler (AccessDeniedException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     public String handleAccessError(AccessDeniedException ex, Model model) {
         model.addAttribute("errorCode", 403);
         model.addAttribute("errorMessage", ex.getMessage());
         logger.warn("Access denied", ex);
         return "error/error";
     }
-    @ExceptionHandler (Exception.class)
+
+    @ExceptionHandler(Exception.class)
     public String handleOtherExceptions(Exception ex, Model model) {
         model.addAttribute("errorCode", 500);
         model.addAttribute("errorMessage", ex.getMessage());

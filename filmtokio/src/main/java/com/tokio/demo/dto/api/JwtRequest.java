@@ -10,6 +10,6 @@ import lombok.*;
 public class JwtRequest {
     @NotBlank(message = "{validate.username}")
     private String username;
-    @NotBlank (message="{validate.password}")
+    @NotBlank(message = "{validate.password}")
     private String password;
 }

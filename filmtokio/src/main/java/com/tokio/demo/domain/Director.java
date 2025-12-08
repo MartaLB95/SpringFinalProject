@@ -18,6 +18,6 @@ import java.util.Set;
 @DiscriminatorValue("Director")
 public class Director extends Artist {
 
-@OneToMany (mappedBy="director")
+    @OneToMany(mappedBy = "director")
     private Set<Film> films;
 }

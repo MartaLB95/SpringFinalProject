@@ -1,4 +1,5 @@
 package com.tokio.demo.batch.model;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

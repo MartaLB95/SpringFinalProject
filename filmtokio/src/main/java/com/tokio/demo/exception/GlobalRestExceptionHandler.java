@@ -2,7 +2,6 @@ package com.tokio.demo.exception;
 
 import com.tokio.demo.controller.RatingRestController;
 import com.tokio.demo.dto.api.ApiErrorDto;
-import com.tokio.demo.service.impl.ArtistServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

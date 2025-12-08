@@ -17,6 +17,6 @@ import java.util.Set;
 @DiscriminatorValue("Actor")
 public class Actor extends Artist {
 
-@ManyToMany
+    @ManyToMany
     private Set<Film> films;
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-<!--Where to save the logs and name of the file-->
+    <!--Where to save the logs and name of the file-->
     <property name="LOG_DIR" value="logs"/>
     <property name="LOG_NAME" value="filmtokio"/>
 
-<!--Configuration of the console log-->
+    <!--Configuration of the console log-->
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
-            <encoder>
+        <encoder>
 
-    <!--Trace configuration-->
-                <pattern>
-                     %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n
-                </pattern>
+            <!--Trace configuration-->
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n
+            </pattern>
 
-            </encoder>
+        </encoder>
     </appender>
 
     <!--Storage configuration-->
@@ -22,20 +22,20 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 
-    <!--Log level for each appender-->
-    <file>${LOG_DIR}/${LOG_NAME}.log</file>
-    <encoder>
-        <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
+        <!--Log level for each appender-->
+        <file>${LOG_DIR}/${LOG_NAME}.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
 
-    <!--Log rotation policy-->
-    <rollingPolicy
-            class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-        <fileNamePattern>${LOG_DIR}/${LOG_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-        <maxFileSize>10MB</maxFileSize>
-        <maxHistory>30</maxHistory>
-    </rollingPolicy>
-</appender>
+        <!--Log rotation policy-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
 
     <root level="info">
         <appender-ref ref="RollingFile"/>

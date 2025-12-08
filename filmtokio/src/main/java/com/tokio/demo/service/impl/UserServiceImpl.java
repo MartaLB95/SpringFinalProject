@@ -35,22 +35,22 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
-    public List<User> findAll(){
+    public List<User> findAll() {
         logger.info("Service: fetching all users");
         return userRepository.findAll();
     }
 
     @Override
-    public Optional <User> findById(Long id){
+    public Optional<User> findById(Long id) {
         logger.info("Service: fetching user with id {}", id);
         return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("User with ID " + id + " not found")));
     }
 
     @Override
-    public User save(@Valid UserRegisterDTO userDTO){
+    public User save(@Valid UserRegisterDTO userDTO) {
         //Entidad user
         User user = new User();
         user.setUsername(userDTO.getUsername());
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPasswordBis(passwordEncoder.encode(userDTO.getPasswordBis()));
-        Role userRole=roleRepository.findByName("ROLE_USER");
+        Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(Set.of(userRole));
 
         logger.info("New user created");
@@ -70,8 +70,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id){
-        if(userRepository.existsById(id)){
+    public void delete(Long id) {
+        if (userRepository.existsById(id)) {
             logger.info("User with id {} exists", id);
             userRepository.deleteById(id);
             logger.info("User with id {} deleted", id);
@@ -82,4 +82,10 @@ public class UserServiceImpl implements UserService {
         logger.warn("Checking if username {} exists", username);
         return userRepository.existsByUsername(username);
     }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+
 }

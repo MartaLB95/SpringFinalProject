@@ -25,36 +25,36 @@ public class RatingServiceImpl implements RatingService {
         this.ratingRepository = ratingRepository;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     @Override
 
-    public List<Rating> findAll(){
+    public List<Rating> findAll() {
         logger.info("Service: fetching all ratings");
         return ratingRepository.findAll();
     }
 
     @Override
-    public Optional<Rating> findById(Long id){
+    public Optional<Rating> findById(Long id) {
         logger.info("Service: fetching film with id", id);
         return Optional.ofNullable(ratingRepository.findById(id).orElseThrow(() -> new RatingNotFoundException("Rating with ID " + id + " not found")));
     }
 
     @Override
-    public Rating save(Rating rating){
+    public Rating save(Rating rating) {
         logger.info("New rating created");
         return ratingRepository.save(rating);
     }
 
     @Override
-    public void delete(Long id){
-        if(ratingRepository.existsById(id)){
+    public void delete(Long id) {
+        if (ratingRepository.existsById(id)) {
             logger.info("Rating with id {} exists", id);
             ratingRepository.deleteById(id);
             logger.info("Rating with id {} deleted", id);
         }
     }
 
-    public double findAverageScoreByFilmId(Long filmId){
+    public double findAverageScoreByFilmId(Long filmId) {
         logger.info("Average score calculated");
         return ratingRepository.findAverageScoreByFilmId(filmId);
     }

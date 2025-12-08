@@ -20,20 +20,21 @@ public class UserRegisterDTO {
     private String username;
 
     @Email(message = "{validate.invalidEmail}")
-    @NotBlank (message="{validate.email}")
+    @NotBlank(message = "{validate.email}")
     private String email;
 
     @Size(min = 6, message = "{validate.passwordLength}")
-    @NotBlank (message="{validate.password}")
+    @NotBlank(message = "{validate.password}")
     private String password;
 
     @NotBlank(message = "{validate.passwordConfirmation}")
     private String passwordBis;
 
-    @AssertTrue (message="{validate.passwordMatch}")
+    @AssertTrue(message = "{validate.passwordMatch}")
     public boolean isPasswordMatch() {
         return password != null && password.equals(passwordBis);
     }
+
     @NotBlank(message = "{validate.name}")
     private String name;
 
