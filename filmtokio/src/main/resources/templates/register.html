@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        .mt-negative-3 {
+        margin-top: -2rem;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container mt-4">
+    <h1 th:text="#{register.register}"></h1>
+    <form method="post" th:action="@{/register}" th:object="${userRegisterDTO}">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label th:text="#{register.name}" class="form-label"></label>
+                <input type="text" th:field="*{name}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}"></div>
+
+            <div class="mb-3">
+                <label th:text="#{register.surname}" class="form-label"></label>
+                <input type="text" th:field="*{surname}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('surname')}"
+                 th:errors="*{surname}"></div>
+
+            <div class="mb-3">
+                <label th:text="#{register.email}" class="form-label"></label>
+                <input type="email" th:field="*{email}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}"></div>
+
+            <div class="mb-3">
+                <label th:text="#{common.username}" class="form-label"></label>
+                <input type="text" th:field="*{username}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}"></div>
+
+            <div class="mb-3">
+                <label th:text="#{register.dateOfBirth}" class="form-label"></label>
+                <input type="date" th:field="*{dateOfBirth}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label th:text="#{common.password}" class="form-label"></label>
+                <input type="password" th:field="*{password}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}"></div>
+
+            <div class="mb-3">
+                <label th:text="#{register.confirmPassword}" class="form-label"></label>
+                <input type="password" th:field="*{passwordBis}" class="form-control">
+            </div>
+            <div class="text-danger mb-3 mt-negative-3" th:if="${#fields.hasErrors('passwordBis')}"
+                 th:errors="*{passwordBis}"></div>
+            <button class="btn btn-dark mb-3" type="submit" th:text="#{register.registerButton}"></button>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>
