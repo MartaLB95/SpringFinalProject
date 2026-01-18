@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 
-
+/**We create roles so that we can choose the permissions we give to users according to their level*/
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

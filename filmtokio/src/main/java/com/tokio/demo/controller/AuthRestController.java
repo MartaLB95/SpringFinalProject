@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**This is the controller for ratings, using tokens because it is a rest API*/
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {

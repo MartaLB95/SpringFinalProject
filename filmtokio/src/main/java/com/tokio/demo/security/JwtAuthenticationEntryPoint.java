@@ -38,6 +38,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         response.getWriter().write(json);
         response.getWriter().flush();
-        response.getWriter().close(); // evita que Jackson siga procesando
+        response.getWriter().close(); /**So that jackson stops processing*/
     }
 }

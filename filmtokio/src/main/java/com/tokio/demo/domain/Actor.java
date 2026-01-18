@@ -14,6 +14,8 @@ import java.util.Set;
 @Getter
 @Entity
 
+
+/**Discriminatory Value to specify that this is a subclass of Artist*/
 @DiscriminatorValue("Actor")
 public class Actor extends Artist {
 

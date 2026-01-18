@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Long> {
 
-    //Para buscar títulos que contienen el texto
+    /**Searchs for titles that contain the input text*/
     List<Film> findByTitleContaining(String titleFragment);
 }

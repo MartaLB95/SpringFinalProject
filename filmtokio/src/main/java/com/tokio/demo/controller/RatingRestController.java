@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-
+/**Rest controller for the ratings API. The methods return data instead of views and thus, they can be used by external clients*/
 @RestController
 @RequestMapping("api/ratings")
 public class RatingRestController {

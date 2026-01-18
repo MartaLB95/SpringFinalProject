@@ -11,6 +11,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "artists")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+/**Here we add the discriminator column that states that this columns will have different types to choose from*/
 @DiscriminatorColumn(name = "type")
 public class Artist {
 
