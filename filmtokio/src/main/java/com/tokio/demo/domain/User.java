@@ -37,7 +37,7 @@ public class User {
     private String password;
 
     /**
-     * Tiene que coincider con la contraseña anterior, pero creo que esto se consigue a través del servicio
+     * Tiene que coincidir con la contraseña anterior, pero esto se consigue a través del servicio
      */
     @Column(name = "passwordBis", nullable = false)
     private String passwordBis;

@@ -9,6 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security configuration for the REST API.
+ * This configuration uses JWT-based authentication and is fully stateless
+ * (the user is not remembered and each request is independent),
+ * allowing the API to be consumed by external clients.
+ */
 @Configuration
 
 //Para que se aplique antes que la WebConfig
@@ -26,8 +32,8 @@ public class RestSecurityConfig {
     public SecurityFilterChain restFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/**") //Para que solo se aplique a API y no a la web
-                .csrf(csrf -> csrf.disable())
+                .securityMatcher("/api/**") /**So that this configuration applies just to the API and not the MVC*/
+                .csrf(csrf -> csrf.disable())/**No need because there are no session cookies*/
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll()

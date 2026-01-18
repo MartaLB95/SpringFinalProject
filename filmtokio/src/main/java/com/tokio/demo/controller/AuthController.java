@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**This controller takes care of the authentication process for the whole website, except for Ratings, since Ratings is a rest service*/
 @Controller
 public class AuthController {
 
@@ -28,11 +29,12 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
+    /**The login will fail if the credentials are not correct*/
     @GetMapping("/login")
     public String login(Model model, @RequestParam(value = "error", required = false) String error) {
         model.addAttribute("loginDTO", new LoginDTO());
         if (error != null) {
-            model.addAttribute("errorMsg", "login.notvalid"); // Thymeleaf traducirá con i18n
+            model.addAttribute("errorMsg", "login.notvalid"); /**Thymeleaf will translate with i18n*/
             logger.error("login error");
         }
         logger.info("Login form is shown");
@@ -46,6 +48,7 @@ public class AuthController {
         return "register";
     }
 
+    /**A user can only register with a new name, otherwise there will be an error*/
     @PostMapping("/register")
     public String postRegister
             (@Valid @ModelAttribute UserRegisterDTO userRegisterDTO, BindingResult result, Model model) {

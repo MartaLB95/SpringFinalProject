@@ -27,6 +27,7 @@ import java.util.UUID;
 @RequestMapping("/films")
 
 public class FilmController {
+    /**I am using this kind of dependency injection with constructor because I read that it is more modern than autowired*/
 
     private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
@@ -59,8 +60,8 @@ public class FilmController {
 
     @GetMapping("/details/{id}")
     public String getById(@PathVariable Long id, Model model, Principal principal) {
-        /**Hay que indicar que Film es un optional y pasarle a thymeleaf algo distinto, ya que no puede
-         * leer optionals. Además, si no pasamos "film" al model, thymeleaf no lo encontrará.
+        /**We need to indicate that this is an optional and add a different type in Thymeleaf, since it cannot read optionals.
+         *  Besides, if "film" is not in the model, it will not find it.
          */
         logger.info("GET/films/details/{} called", id);
         Film film = filmServiceImpl.findById(id);
@@ -137,19 +138,19 @@ public class FilmController {
     public String post(@ModelAttribute Film film, @RequestParam Long directorId, Model model,
                        @RequestParam("posterFile") MultipartFile poster) throws IOException {
 
-        // Recuperar el director DB
+        // Recover the director db
         Director director = directorServiceImpl.findById(directorId)
                 .orElseThrow(() -> new RuntimeException("Director not found"));
 
-        // Reemplazar el "transient" por el director real
+        // Replace the transient for the real director
         film.setDirector(director);
 
-        //Añadir atributo
+        //Add attribute
         model.addAttribute("film", film);
 
-        //Añadir imagen para poster
+        //Add image for the poster
         if (poster != null && !poster.isEmpty()) {
-            // Validar tipo de archivo
+            // Validate the type of file
             if (!poster.getContentType().startsWith("image/")) {
                 model.addAttribute("errorMsg", "Only images allowed");
                 logger.warn("Format not allowed, only images");
@@ -165,10 +166,10 @@ public class FilmController {
         }
 
 
-        //Guardar película
+        //Save the film
         filmServiceImpl.save(film);
         logger.info("The film has been created successfully with title {}", film.getTitle());
-        //Devolver vista (volver a la lista de películas)
+        //Go back to the list of films
         return "redirect:/films";
     }
 
@@ -181,11 +182,11 @@ public class FilmController {
                 .orElseThrow(() -> new RuntimeException("Director not found"));
 
         film.setDirector(director);
-        //Nos aseguramos de que el form se envía con el mismo id
+        //We make sure that the form is sent with the same id
         film.setId(id);
-        //Añadir imagen para poster
+        //Add image for poster
         if (poster != null && !poster.isEmpty()) {
-            // Validar tipo de archivo
+            // Validate the type of file
             if (!poster.getContentType().startsWith("image/")) {
                 model.addAttribute("errorMsg", "Only images allowed");
                 logger.warn("Format not allowed, only images");
@@ -199,14 +200,14 @@ public class FilmController {
             poster.transferTo(uploadImage.resolve(fileName));
             film.setPoster(fileName);
         } else {
-            //Si el poster existe, se da la opción de no cambiarlo
+            //If a poster exists already, you can decide to keep it
             film.setPoster(existingFilm.getPoster());
         }
 
-        //Guardar película editada
+        //Save the edited film
         filmServiceImpl.save(film);
         logger.info("The film with id {} has been edited successfully", id);
-        //Devolver vista (volver a la lista de películas)
+        //Go back to the list of films
         return "redirect:/films";
     }
 

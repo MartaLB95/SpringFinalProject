@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    //Calcular la media de los scores
-
+    /**Used to calculate the average score*/
     @Query("SELECT COALESCE (AVG(r.score),0) FROM Rating r WHERE r.film.id = :filmId")
     Double findAverageScoreByFilmId(@Param("filmId") Long filmId);
 }

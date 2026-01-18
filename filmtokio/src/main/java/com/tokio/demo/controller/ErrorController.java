@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Locale;
 
+/**Every error that has not been treated will be caught here. We will see an error page with the error details*/
 @Controller
 public class ErrorController {
 

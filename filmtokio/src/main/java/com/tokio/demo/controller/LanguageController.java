@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import java.util.Locale;
-
+/**
+ * Controller responsible for changing the application's language.
+ * The selected locale is stored in a cookie so that the user's preference
+ * is preserved
+ */
 @Controller
 
 public class LanguageController {

@@ -19,7 +19,7 @@ public class CustomLoginSucessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        response.sendRedirect("/films"); // redirige al dashboard/películas
+        response.sendRedirect("/films"); /**Redirects to Films*/
         logger.error("Authentication success");
     }
 }

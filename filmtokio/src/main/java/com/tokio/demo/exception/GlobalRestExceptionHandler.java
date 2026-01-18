@@ -10,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**This class is a exception handler specifically for the rest API. It will return an error response with its code*/
 @RestControllerAdvice(assignableTypes = {RatingRestController.class})
 public class GlobalRestExceptionHandler{
 

@@ -19,7 +19,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
-        response.sendRedirect("/login?error=true"); // redirige con parámetro para mostrar error
+        response.sendRedirect("/login?error=true"); /**Redirects with a parameter to show the error*/
         logger.error("Authentication failed");
     }
 }

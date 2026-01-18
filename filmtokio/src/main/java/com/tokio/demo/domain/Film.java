@@ -27,17 +27,11 @@ public class Film {
     @Column(name = "title", nullable = false)
     private String title;
 
-    /**
-     * He podido indicar el número de dígitos con las anotaciones min y max, sin necesidad de implementarlo en el servicio
-     */
-
     @Column(name = "releaseDate", nullable = false)
-    // @Min(1)
-    // @Max(9999)
     private int releaseDate;
 
     /**
-     * Mirar cómo conectar esto bien
+     * Many to many because each actor can be in many films and a film can have many actors
      */
     @ManyToMany
     @JoinTable(
@@ -47,6 +41,7 @@ public class Film {
     )
     private Set<Actor> actors;
 
+    /**Many to one because a film has one director and a director can have several films*/
     @ManyToOne
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
@@ -54,6 +49,8 @@ public class Film {
     @Column(name = "poster", nullable = false)
     private String poster;
 
+    /**One film, many ratings, but each rating for just one film*/
+    /**JsonIgnoreProperties to make serialization possible*/
     @OneToMany(mappedBy = "film")
     @JsonIgnoreProperties("rating")
     private Set<Rating> ratings;

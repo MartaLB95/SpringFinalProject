@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.nio.file.AccessDeniedException;
 
+/**This exception handler is used for the whole website except for the API Rest. When there is an exception, we see the error Thymeleaf page that we created with
+ * the specific error code and message
+ *
+ */
 @ControllerAdvice
 public class GlobalWebExceptionHandler {
 

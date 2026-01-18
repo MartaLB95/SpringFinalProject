@@ -24,7 +24,7 @@ public class ArtistController {
         this.artistServiceImpl = artistServiceImpl;
     }
 
-
+    /**The page to create an artist is shown. We can choose to create an artist or an actor*/
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         logger.info("GET/create/ called");
@@ -35,7 +35,7 @@ public class ArtistController {
         return "createArtist";
     }
 
-
+    /**An artist, with name and lastname, is created. We are redirected to the home**/
     @PostMapping("/create")
     public String post(@RequestParam String type, @RequestParam String name, @RequestParam String lastname, @ModelAttribute Model model) {
         Artist artist;

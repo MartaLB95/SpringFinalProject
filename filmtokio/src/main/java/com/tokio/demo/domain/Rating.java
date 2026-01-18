@@ -23,12 +23,11 @@ public class Rating {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    //LocalDateTime para que guarde fecha y hora
+   /**LocalDateTime for both time and date*/
     private LocalDateTime createdAt;
 
     @Column(name = "score", nullable = false)
     private int score;
-    //Tengo que ver cómo conecto esto
 
     @ManyToOne
     @JsonIgnoreProperties("film")
